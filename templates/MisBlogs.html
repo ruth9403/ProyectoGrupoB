@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Mis blogs
+{% endblock %}
+
+{% block main %}
+
+<div id="page-container">
+    <div class="row container">
+        <div class="col">
+        <div class="cajalogin">
+            <h1>Inicia Sesión</h1>
+            <form>
+                <table>
+                    <tr>
+                        <td><label for="usuario">Usuario</label></td>
+                        <td><input type="text"  name="usuario" id="usuario"><br></td>
+                    </tr>
+                    <tr>
+                        <td><label for="pass">Constraseña</label></td>
+                        <td><input type="password" name="pass" id="pass" ><br></td>
+                    </tr>
+                </table>
+                <div style="text-align: center; padding: 10px"><input type="submit" value="Entrar" class="boton"></div>
+                <table>
+                    <tr>
+                        <td><a class = "links" href="#">¿Olvidaste tu contraseña?</a><br></td>
+                        <td><a class = "links" href="#">Registrarse</a></td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
+        </div>
+        <div class="col">
+        <div class="cajabuscar">
+            <h1>¡Busca un blog de tu interés!</h1>
+            <h3 style="text-align: center; font-size: medium;padding: 10px;">Escribe el título o una palabra clave para encontrar <br>
+                blogs que puedan interesarte</h3>
+            <form>
+                <input type="text"  name="barra_busqueda" id="barra_busqueda"><br>
+                <div style="padding: 10px;"><input type="submit" value="Buscar" class="boton"><br></div>
+            </form>
+        </div>
+        </div>
+    </div>
+    </div>
+    <div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8" style="text-align: center;">
+                <table>
+                    <tr>
+                        <td><a class="links_footer" href="#">About us</a></td>
+                        <td><a class="links_footer" href="#">Política de privacidad</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+            <table>
+                <tr>
+                    <td><a href="#"><img src="/static/linkedin.PNG" alt="Linkedin" class="socialmedia"></a></td>
+                    <td><a href="#"><img src="/static/fb.PNG" alt="Facebook" class="socialmedia"></a></td>
+                    <td><a href="#"><img src="/static/ig.PNG" alt="Instagram" class="socialmedia"></a></td>
+                    <td><a href="#"><img src="/static/tw.PNG" alt="Twitter" class="socialmedia"></a></td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+{% endblock %}
