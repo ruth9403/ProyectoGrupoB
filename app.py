@@ -13,6 +13,11 @@ def index():
 def Recuperar():
 
     return render_template("recuperacion1.html")
+@app.route("/MisBlogs")
+def MisBlogs():
+
+    return render_template("MisBlogs.html")
+
 
 
 
