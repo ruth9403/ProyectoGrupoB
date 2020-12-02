@@ -18,6 +18,11 @@ def MisBlogs():
 
     return render_template("MisBlogs.html")
 
+@app.route("/header")
+def header():
+
+    return render_template("header.html")
+
 
 
 
