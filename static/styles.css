@@ -1,5 +1,5 @@
 /* ----------------------------------------INICIO MARIA ISABEL---------------------------------------------- */
-body{
+#body_index{
     margin: 0;
     padding: 0;
     background: url("/static/inicio.jpeg") no-repeat center;
@@ -18,7 +18,6 @@ body{
     text-align: center;
     margin: 0;
     padding: 0;
-    background: url("/static/inicio.jpeg") no-repeat center;
     background-size: cover;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     height: 100vh;
@@ -62,6 +61,13 @@ h1{
     
 }
 
+#body_misblogs{
+    margin: 0;
+    padding: 0;
+    background: url("/static/inicio.jpeg") no-repeat center;
+    background-size: cover;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 /* ---------------------------------------- FIN MARIA ISABEL---------------------------------------------- */
 
 
