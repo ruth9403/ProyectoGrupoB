@@ -59,6 +59,21 @@ h1{
 
 
 /* ----------------------------------------INICIO ANDRES---------------------------------------------- */
+.RecuperarC{
+    /* Centrado vertical y horizontal */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, 0%);
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: url("/static/plantaesquina.jpeg") no-repeat center;
+    background-size: cover;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 100vh;
+}
 /* ---------------------------------------- FIN ANDRES---------------------------------------------- */
 
 

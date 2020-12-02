@@ -9,6 +9,10 @@ def index():
 
     return render_template("index.html")
 
+@app.route("/Recuperar")
+def Recuperar():
+
+    return render_template("recuperacion1.html")
 
 
 
