@@ -85,6 +85,93 @@ h1{
 
 
 /* ----------------------------------------INICIO RUTH---------------------------------------------- */
+.registro-main{
+    margin: 0;
+    padding: 0;
+    background: url("/static/plantaesquina.jpeg") no-repeat center;
+    background-size: cover;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    height: 100vh;
+}
+
+.box{
+    margin: 0 auto;
+    position: relative;
+    top: 10%;
+    width: 55%;
+    padding: 2%;
+    font-family: 'Maven Pro', sans-serif;
+    font-size: 1em;
+    /*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
+}
+
+.box .box-bar{
+    margin-top: 0;
+    width: 70%;
+    background-color: rgb(128, 128, 128);
+    height: 1.5px;
+    border-radius: 2px;
+}
+.box .box-title{
+    margin-bottom: 1px;
+}
+.box .box-form{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    padding-left: 5%;
+}
+
+.form-group{
+    width: 70%;
+    margin: 2% auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+.form-group label{
+    width: 40%; 
+    text-align: left;
+}
+.form-group-input{
+    border: 3px solid black;
+    border-radius: 3px;
+}
+
+.button{
+    width: 43%;
+    height: 2%;
+    padding: 0px 5px;
+    margin: 0 auto;
+    margin-top: 7%;
+    background-color: 	#ffffff;
+    border: 3px solid black;
+    border-radius: 3px;
+    box-shadow: 5px 5px 1px #000000;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    letter-spacing: 0in;
+}
+
+.form-inicio{
+    margin-top: 5%;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    font-weight: 100;
+}
+
+.form-inicio a{
+    text-decoration: underline;
+    color: rgb(128, 128, 128);
+    font-weight: bold;
+
+}
+
+
+
 /* ---------------------------------------- FIN RUTH---------------------------------------------- */
 
 
