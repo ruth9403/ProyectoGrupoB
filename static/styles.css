@@ -81,6 +81,15 @@ h1{
   padding: 10px;
   background-color: #ffffff;
 }
+#blog{
+    background-color: white;
+}
+#blog .titulo{
+    border-bottom: 4px gray;
+}
+.articulo{
+    padding: 15px;
+}
 /* ---------------------------------------- FIN MARIA ISABEL---------------------------------------------- */
 
 
