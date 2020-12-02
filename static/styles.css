@@ -16,6 +16,12 @@ body{
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, 0%);
     text-align: center;
+    margin: 0;
+    padding: 0;
+    background: url("/static/inicio.jpeg") no-repeat center;
+    background-size: cover;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 100vh;
 }
 td{
     padding: 10px;
