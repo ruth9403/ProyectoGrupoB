@@ -9,6 +9,11 @@ def index():
 
     return render_template("index.html")
 
+@app.route("/MisBlogs")
+def MisBlogs():
+
+    return render_template("MisBlogs.html")
+
 
 
 
