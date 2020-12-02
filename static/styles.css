@@ -85,6 +85,7 @@ h1{
 
 
 /* ----------------------------------------INICIO RUTH---------------------------------------------- */
+/*css de la pagina registro*/
 .registro-main{
     margin: 0;
     padding: 0;
@@ -120,7 +121,6 @@ h1{
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
-    padding-left: 5%;
 }
 
 .form-group{
@@ -156,21 +156,25 @@ h1{
 }
 
 .form-inicio{
+    margin: 0 auto;
     margin-top: 5%;
     display: flex;
     flex-flow: row;
     justify-content: space-around;
     font-weight: 100;
+    width: 50%;
+    opacity: 0.5;
 }
 
 .form-inicio a{
     text-decoration: underline;
     color: rgb(128, 128, 128);
     font-weight: bold;
-
 }
-
-
+/*css de la pagina resultados-- Same classes*/
+.resultados{
+    background: url("/static/inicio.jpeg") no-repeat center;
+}
 
 /* ---------------------------------------- FIN RUTH---------------------------------------------- */
 
