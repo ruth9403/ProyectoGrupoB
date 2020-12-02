@@ -18,6 +18,11 @@ def MisBlogs():
 
     return render_template("MisBlogs.html")
 
+@app.route("/Recuperar2")
+def Recuperar2():
+
+    return render_template("recuperacion2.html")
+
 
 
 
