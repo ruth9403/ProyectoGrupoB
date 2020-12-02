@@ -80,6 +80,14 @@ h1{
     text-align: center;
     margin: 0;
     padding: 0;
+    background-size: cover;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 100vh;
+}
+
+#BODYRecuperar{
+    margin: 0;
+    padding: 0;
     background: url("/static/plantaesquina.jpeg") no-repeat center;
     background-size: cover;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
