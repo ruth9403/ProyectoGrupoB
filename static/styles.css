@@ -61,8 +61,8 @@ h1{
     
 }
 .navegacion{
-    margin-top: 2cm;
-    padding: 2cm;
+    margin-top: 0.5cm;
+    padding: 0.5cm;
 }
 #body_misblogs{
     margin: 0;
@@ -79,7 +79,7 @@ h1{
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 10px;
-  background-color: #c53838;
+  background-color: #ffffff;
 }
 /* ---------------------------------------- FIN MARIA ISABEL---------------------------------------------- */
 
@@ -203,6 +203,118 @@ h1{
 
 
 /* ----------------------------------------INICIO MIGUEL---------------------------------------------- */
+li,
+a,
+button {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+    color: black;
+    text-decoration: none;
+}
+
+.logo {
+    cursor: pointer;
+}
+
+header {
+    padding-top:20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%;
+    background-color: white;
+    border: 5px solid  rgb(128, 128, 128);;
+}
+
+.navlinks {
+    list-style: none;
+}
+
+.navlinks li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.navlinks li a {
+    transition: all 03s ease 0s;
+}
+
+.navlinks li a:hover {
+    color: #0088a9;
+}
+
+button {
+    padding: 9px 25px;
+    background-color: rgba(0, 136, 139, 1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgba(0, 136, 139, 0.8);
+}
+
+
+/* Estilos para el contenedor de detalle de blog y comentarios */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1fr 0.5fr;
+    grid-template-rows: 1.8fr 0.2fr;
+    gap: 0px 5px;
+    grid-template-areas: ". UNo Dos ." ". UNo Tres .";
+}
+
+.Uno {
+    grid-area: UNo;
+}
+
+.Dos {
+    grid-area: Dos;
+}
+
+.Tres {
+    grid-area: Tres;
+}
+
+.titulo {
+    font-size: 48px;
+    font-family: "Montserrat", sans-serif;
+}
+
+.encabezado {
+    font-size: 24px;
+    font-family: "Montserrat", sans-serif;
+    margin-top: 1em;
+}
+
+.parrafo {
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.nombre_usuario {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+}
+
+.fecha {
+    font-size: 14px;
+    font-family: "Montserrat", sans-serif;
+    color: gray;
+}
+
+.subtitulos {
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
 /* ---------------------------------------- FIN MIGUEL---------------------------------------------- */
 
 /* ----------------------------------------INICIO ALEJANDRO---------------------------------------------- */
