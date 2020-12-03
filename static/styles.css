@@ -95,10 +95,21 @@ h1{
     text-align: center;
     padding-top: 100px;    
 }
+
+.titulo_blog{
+    font-weight: bold;
+    color: rgb(97, 97, 97);
+    font-size: 20px;
+}
+.fechas{
+    color: rgb(138, 138, 138);
+    font-size: small;
+}
 /* ---------------------------------------- FIN MARIA ISABEL---------------------------------------------- */
 
 
 /* ----------------------------------------INICIO RUTH---------------------------------------------- */
+/*css de la pagina registro*/
 .registro-main{
     margin: 0;
     padding: 0;
@@ -134,7 +145,6 @@ h1{
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
-    padding-left: 5%;
 }
 
 .form-group{
@@ -170,29 +180,27 @@ h1{
 }
 
 .form-inicio{
+    margin: 0 auto;
     margin-top: 5%;
     display: flex;
     flex-flow: row;
     justify-content: space-around;
     font-weight: 100;
+    width: 50%;
+    opacity: 0.5;
 }
 
 .form-inicio a{
     text-decoration: underline;
     color: rgb(128, 128, 128);
     font-weight: bold;
-
-}
-.titulo_blog{
-    font-weight: bold;
-    color: rgb(97, 97, 97);
-    font-size: 20px;
-}
-.fechas{
-    color: rgb(138, 138, 138);
-    font-size: small;
 }
 
+
+/*css de la pagina resultados-- Same classes*/
+.resultados{
+    background: url("/static/inicio.jpeg") no-repeat center;
+}
 
 /* ---------------------------------------- FIN RUTH---------------------------------------------- */
 
