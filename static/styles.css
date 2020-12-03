@@ -220,28 +220,70 @@ button:hover{
 
 
 /* ----------------------------------------INICIO ANDRES---------------------------------------------- */
-.RecuperarC{
-    /* Centrado vertical y horizontal */
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, 0%);
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    background-size: cover;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    height: 100vh;
-}
-
-#BODYRecuperar{
+.recuperacion1-main{
     margin: 0;
     padding: 0;
     background: url("/static/plantaesquina.jpeg") no-repeat center;
     background-size: cover;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
     height: 100vh;
+}
+.recuperacion2-main{
+    margin: 0;
+    padding: 0;
+    background: url("/static/pexels-photo-934062.jpeg") no-repeat center;
+    background-size: cover;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    height: 100vh;
+}
+.button{
+    width: 43%;
+    height: 2%;
+    padding: 0px 5px;
+    margin: 0 auto;
+    margin-top: 7%;
+    background-color: 	#ffffff;
+    border: 3px solid black;
+    border-radius: 3px;
+    box-shadow: 5px 5px 1px #000000;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    letter-spacing: 0in;
+}
+.rec2{
+    margin: 0 auto;
+    position: relative;
+    top: 10%;
+    width: 55%;
+    padding: 2%;
+    font-family: 'Maven Pro', sans-serif;
+    font-size: 1em;
+}
+.rec2-group-input{
+    width: 40%; 
+    text-align: left;
+}
+.rec2-group-input{
+    border: 3px solid black;
+    border-radius: 3px;
+}
+.rec2-group{
+    width: 70%;
+    margin: 2% auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.rec2 .rec2-bar{
+    margin-top: 0;
+    width: 70%;
+    background-color: rgb(128, 128, 128);
+    height: 1.5px;
+    border-radius: 2px;
 }
 /* ---------------------------------------- FIN ANDRES---------------------------------------------- */
 
