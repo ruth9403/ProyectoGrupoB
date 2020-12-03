@@ -11,25 +11,33 @@
 
 </head>
 <body>
-    
+     <!-- Header para insertar en layout -->
+     <header>
+        <img class="logo" src="/static/logo.svg" alt="logo">
+        <nav>
+            <ul class="navlinks">
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Mis Blogs</a></li>
+            </ul>
+        </nav>
+        <a class="closeSession" href="#"><button>Cerrar Sesión</button></a>
+    </header>
+    <!-- Cierre header -->
 
     <main class="registro-main resultados">
-        <!-- Header para insertar en layout -->
-        <header>
-            <img class="logo" src="/static/logo.svg" alt="logo">
-            <nav>
-                <ul class="navlinks">
-                    <li><a href="#">Inicio</a></li>
-                    <li><a href="#">Mis Blogs</a></li>
-                </ul>
-            </nav>
-            <a class="closeSession" href="#"><button>Cerrar Sesión</button></a>
-        </header>
-        <!-- Cierre header -->
-        
-        <section class="box-grid">
-            
+        <section class="container-cards">
+            <h2 class="resultados-title">Resultados encontrados: X</h2>
+            <article class="card">
+                <div>
+                    <h3 class="card-title">Blog X</h3>
+                    <hr class="card-hr">
+                </div>
+                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet neque aspernatur deserunt saepe excepturi iste? Ex voluptates, vel quae voluptatum, nulla deserunt facilis vero eos corrupti perferendis id rerum aliquid.</p>
+            </article>
         </section>
+        <aside class="aside">
+            <img class="aside-img" src="./../static/pexels-photo-2740954.jpeg" alt="you got this">
+        </aside>
     </main>
 
       <div class="footer">

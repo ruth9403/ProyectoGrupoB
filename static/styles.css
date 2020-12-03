@@ -164,26 +164,40 @@ h1{
     letter-spacing: 0in;
 }
 
+button:hover{
+    background-color: rgba(0, 136, 139, 0.8);
+}
+
 .form-inicio{
     margin: 0 auto;
     margin-top: 5%;
     display: flex;
     flex-flow: row;
     justify-content: space-around;
+    font-family: 'Maven Pro', sans-serif;
     font-weight: 100;
     width: 50%;
     opacity: 0.5;
+    font-size: 1em;
 }
 
 .form-inicio a{
     text-decoration: underline;
     color: rgb(128, 128, 128);
     font-weight: bold;
+    
 }
 /*css de la pagina resultados-- Same classes*/
 .resultados{
     background: url("/static/inicio.jpeg") no-repeat center;
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0;
+    padding: 0;
 }
+
+
+
 
 /* ---------------------------------------- FIN RUTH---------------------------------------------- */
 
