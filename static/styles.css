@@ -72,7 +72,7 @@ h1{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.barra{
+/* .barra{
   float: none;
   position: absolute;
   top: 50%;
@@ -80,15 +80,20 @@ h1{
   transform: translate(-50%, -50%);
   padding: 10px;
   background-color: #ffffff;
-}
+} */
 #blog{
     background-color: white;
+    border: 3px solid  #DDDDDD;
 }
 #blog .titulo{
     border-bottom: 4px gray;
 }
 .articulo{
     padding: 15px;
+}
+.botones_articulo{
+    text-align: center;
+    padding-top: 100px;    
 }
 /* ---------------------------------------- FIN MARIA ISABEL---------------------------------------------- */
 
@@ -178,7 +183,15 @@ h1{
     font-weight: bold;
 
 }
-
+.titulo_blog{
+    font-weight: bold;
+    color: rgb(97, 97, 97);
+    font-size: 20px;
+}
+.fechas{
+    color: rgb(138, 138, 138);
+    font-size: small;
+}
 
 
 /* ---------------------------------------- FIN RUTH---------------------------------------------- */
@@ -227,13 +240,12 @@ button {
 }
 
 header {
-    padding-top:20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 10%;
+    padding: 15px 10%;
     background-color: white;
-    border: 5px solid  rgb(128, 128, 128);;
+    border: 4px solid  rgb(128, 128, 128);;
 }
 
 .navlinks {
