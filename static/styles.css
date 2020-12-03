@@ -4,7 +4,7 @@
     padding: 0;
     background: url("/static/inicio.jpeg") no-repeat center;
     background-size: cover;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Maven Pro', sans-serif;
     height: 100vh;
 }
 
@@ -19,7 +19,7 @@
     margin: 0;
     padding: 0;
     background-size: cover;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Maven Pro', sans-serif;
     height: 100vh;
 }
 td{
