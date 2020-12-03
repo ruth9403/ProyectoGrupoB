@@ -22,6 +22,15 @@ def MisBlogs():
 def Recuperar2():
 
     return render_template("recuperacion2.html")
+@app.route("/header")
+def header():
+
+    return render_template("header.html")
+
+@app.route("/registro")
+def registro():
+
+    return render_template("registro.html")
 
 
 
