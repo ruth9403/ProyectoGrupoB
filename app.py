@@ -28,6 +28,16 @@ def registro():
 
     return render_template("registro.html")
 
+@app.route("/resultados")
+def resultados():
+
+    return render_template("resultados.html")
+
+@app.route("/recuperacion")
+def recuperacion():
+
+    return render_template("recuperacion2.html")
+
 
 
 
