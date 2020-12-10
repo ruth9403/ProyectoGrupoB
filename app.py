@@ -16,8 +16,6 @@ def index():
         username = request.form.get("usuario")
         password = request.form.get("pass")
 
-        print(username, password)
-
         validUser = validateUser(username, password)
 
         if validUser:
@@ -52,7 +50,7 @@ def Recuperar():
 
 @app.route("/MisBlogs")
 def MisBlogs():
-    
+
     return render_template("MisBlogs.html")
 
 @app.route("/Recuperar2", methods = ["GET", "POST"])
@@ -78,6 +76,15 @@ def Recuperar2():
         #else:
 
             # Alarm con Js o label en rojo
+
+@app.route("/verificacion", methods = ["GET", "POST"])
+def verificacion():
+
+    if request.method == "GET":
+        return render_template("paginaVerificacionCorreo.html")
+
+    else:
+        
 
 
 
@@ -124,4 +131,4 @@ def resultados():
 
 
 
-
+# nos quedamos con header
