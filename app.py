@@ -36,7 +36,7 @@ def index():
 
 
 
-@app.route("/Recuperar")
+@app.route("/Recuperar", methods = ["GET", "POST"])
 def Recuperar():
 
     if request.method =="GET":
