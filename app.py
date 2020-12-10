@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
-from utils import validateUser
+from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswordValid
 
 app = Flask(__name__)
 
@@ -84,7 +84,7 @@ def verificacion():
         return render_template("paginaVerificacionCorreo.html")
 
     else:
-        
+
 
 
 
