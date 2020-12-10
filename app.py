@@ -4,7 +4,7 @@ from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswor
 
 app = Flask(__name__)
 
-# Añado la ruta por defecto
+# Añado la ruta por defecto (Index)
 @app.route("/", methods = ["GET", "POST"])
 def index():
 
@@ -21,7 +21,7 @@ def index():
             # Hacer select de la base de datos segun lo que esté en la barra de busqueda
             # pasar un diccionario con los resultados
 
-            return redirect("/resultados")
+            return redirect("/resultados_sinsesion")
 
         username = request.form.get("usuario")
         password = request.form.get("pass")
@@ -42,6 +42,7 @@ def index():
 
             return render_template("index.html", visible = True, mensaje= mensaje)
 
+# Ruta para la página de registro
 @app.route("/registro", methods = ["GET", "POST"])
 def registro():
 
@@ -83,6 +84,7 @@ def registro():
 
         return redirect("/")
 
+# Ruta para la primera página de recuperación de contraseña (donde se pide el correo)
 @app.route("/Recuperar", methods = ["GET", "POST"])
 def Recuperar():
 
@@ -99,6 +101,16 @@ def Recuperar():
 
         return redirect("/verificacion")
 
+
+# Ruta para la segunda página de recuperación de contraseña (donde se avisa al usuario que se ha enviado un correo)
+@app.route("/verificacion", methods = ["GET", "POST"])
+def verificacion():
+
+    if request.method == "GET":
+        return render_template("paginaVerificacionCorreo.html")
+
+
+# Ruta para la tercera página de recuperación de contraseña (donde se hace cambio de contraseña)
 @app.route("/Recuperar2", methods = ["GET", "POST"])
 def Recuperar2():
 
@@ -118,32 +130,54 @@ def Recuperar2():
         # Si las contraseñas coinciden redirijo al usuario a la pagina de inicio para que se loguee
         return redirect("/")
 
+# Resultados de búsqueda de blogs cuando no se ha iniciado sesión
+@app.route("/resultados_sinsesion", methods = ["GET", "POST"])
+def resultados_sinsesion():
 
+    return render_template("resultados_sinsesion.html")
+
+# Resultados de búsqueda de blogs cuando se ha iniciado sesión
+@app.route("/resultados", methods = ["GET", "POST"])
+def resultados():
+
+    return render_template("resultados.html")
+
+# Página para hacer búsquedas cuando se ha iniciado sesión
+@app.route("/buscar", methods = ["GET", "POST"])
+def buscar():
+
+    if request.method == "GET":
+        return render_template("paginaBusqueda copy.html", visible = False, mensaje = "")
+
+    else:
+
+        clave = request.form.get("clave")
+
+        if clave == "":
+            mensaje = "Ingresar al menos una palabra clave para la búsqueda"
+            return render_template("paginaBusqueda copy.html", visible = True, mensaje = mensaje)
+
+        # Aquí se haría un select condicionado a la base de datos para traer coincidencias 
+        # y se enviaría a la página como diccionario para mostrar los resultados
+
+        return redirect("/resultados")
+
+
+# Página de los blogs del usuario logueado
 @app.route("/MisBlogs")
 def MisBlogs():
 
     return render_template("MisBlogs.html")
 
-
-
-@app.route("/verificacion", methods = ["GET", "POST"])
-def verificacion():
-
-    if request.method == "GET":
-        return render_template("paginaVerificacionCorreo.html")
-
-    #else:
-
-
-@app.route("/header")
+# Página para mostrar el detalle de un blog, los titulos deben ser un anchor
+# y al darles click nos envían acá, enviando el ID específico del blog
+# al que el usuario ha dado click
+@app.route("/blog")
 def header():
     return render_template("header.html")
 
 
-@app.route("/resultados", methods = ["GET", "POST"])
-def resultados():
 
-    return render_template("resultados.html")
 
 <<<<<<< HEAD
 

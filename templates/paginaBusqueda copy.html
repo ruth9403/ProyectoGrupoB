@@ -18,12 +18,19 @@
         <div class="whitespace"></div>
         <div class="content">
             <h5 class="encabezado">Escribe el título o una palabra clave para encontrar blogs que puedan interesarte</h5>
+            <form action="/buscar" method="POST">
             <div class="mx-auto input-group input-group-lg">
                 <div class="input-group-prepend">
                 </div>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name ="clave">
             </div>
-            <button type="button" class="m-2 btn btn-primary">Buscar blogs</button>
+            {% if visible == True %}
+                <table>
+                    <tr><td><label for="" style="color: red">{{mensaje}}</label></td></tr>
+                </table>
+            {% endif %}
+            <button type="submit" class="m-2 btn btn-primary">Buscar blogs</button>
+        </form>
         </div>
         <div class="whitespace"></div>
     </div>
