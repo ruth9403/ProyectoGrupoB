@@ -64,6 +64,10 @@ def Recuperar2():
 
             # Si las contraseñas coinciden redirijo al usuario a la pagina de inicio para que se loguee
             return redirect("/")
+        
+        #else:
+
+            # Alarm con Js o label en rojo
 
 
 
@@ -88,12 +92,18 @@ def registro():
 
         # Insertar validaciones de la profesora
         # Verificar que la contraseña y su confirmación sean iguales
+        if password == confirm:
 
-        # Estos datos deben usarse para hacer un insert en la tabla de usuarios en la base de datos
+            # Estos datos deben usarse para hacer un insert en la tabla de usuarios en la base de datos
 
-        # Llamar un alert de js para avisar que ha sido registrado
+            # Llamar un alert de js para avisar que ha sido registrado
 
-        return redirect("/")
+            return redirect("/")
+        
+        #else: 
+            # Alert o label para avisar que las contraseñas no coincideno que alguna
+            # de las validaciones no paso
+
 
 @app.route("/resultados")
 def resultados():
