@@ -16,7 +16,7 @@
           <div class="col-8">
             <div class="cajalogin">
                 <h1>Inicia Sesión</h1>
-                <form>
+                <form action ="/" method="POST">
                     <table>
                         <tr>
                             <td><label for="usuario">Usuario</label></td>
@@ -26,13 +26,21 @@
                             <td><label for="pass">Constraseña</label></td>
                             <td><input type="password" name="pass" id="pass" ><br></td>
                         </tr>
+                        
                     </table>
-                    <div style="text-align: center; padding: 10px"><button type="submit" class="button">Entrar</button></div>
+                    <div style="text-align: center; padding: 10px">
+                        {% if visible == True %}
+                        <table>
+                            <tr><td><label for="" style="color: red">{{mensaje}}</label></td></tr>
+                        </table>
+                        {% endif %}
+                        <button type="submit" class="button">Entrar</button>
+                    </div>
                     
                     <table>
                         <tr>
-                            <td><a class = "links" href="#">¿Olvidaste tu contraseña?</a><br></td>
-                            <td><a class = "links" href="#">Registrarse</a></td>
+                            <td><a class = "links" href="/Recuperar2">¿Olvidaste tu contraseña?</a><br></td>
+                            <td><a class = "links" href="/registro">Registrarse</a></td>
                         </tr>
                     </table>
 
