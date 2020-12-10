@@ -23,6 +23,11 @@
                     <label for="rec2-form-password">CONFIRMAR CONTRASEÑA</label>
                     <input class="rec2-group-input" type="password" name="password2" id="rec2-form-password" required>
                 </div>
+                {% if visible == True %}
+                    <table>
+                        <tr><td><label for="" style="color: red">{{mensaje}}</label></td></tr>
+                    </table>
+                {% endif %}
                 <div class="rec2-group">
                     <button type="submit" class="button">Guardar</button>
                 </div>

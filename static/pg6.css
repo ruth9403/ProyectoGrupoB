@@ -1,0 +1,31 @@
+  
+body,
+html {
+    height: 100%;
+}
+
+.grid-container-busqueda {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 0.5fr;
+    grid-template-rows: 1fr;
+    gap: 10px 10px;
+    grid-template-areas: "whitespace content whitesapce";
+}
+
+.content {
+    grid-area: content;
+    text-align: center;
+}
+
+.whitespace {
+    grid-area: whitespace;
+}
+
+.caption {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: #000;
+}
