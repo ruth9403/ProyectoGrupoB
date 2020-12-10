@@ -138,7 +138,7 @@ def resultados_sinsesion():
 
 # Resultados de búsqueda de blogs cuando se ha iniciado sesión
 @app.route("/resultados", methods = ["GET", "POST"])
-def resultados_sinsesion():
+def resultados():
 
     return render_template("resultados.html")
 
