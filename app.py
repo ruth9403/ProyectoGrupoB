@@ -142,13 +142,37 @@ def resultados():
 
     return render_template("resultados.html")
 
+# Página para hacer búsquedas cuando se ha iniciado sesión
+@app.route("/buscar", methods = ["GET", "POST"])
+def buscar():
+
+    if request.method == "GET":
+        return render_template("paginaBusqueda copy.html", visible = False, mensaje = "")
+
+    else:
+
+        clave = request.form.get("clave")
+
+        if clave == "":
+            mensaje = "Ingresar al menos una palabra clave para la búsqueda"
+            return render_template("paginaBusqueda copy.html", visible = True, mensaje = mensaje)
+
+        # Aquí se haría un select condicionado a la base de datos para traer coincidencias 
+        # y se enviaría a la página como diccionario para mostrar los resultados
+
+        return redirect("/resultados")
+
+
 # Página de los blogs del usuario logueado
 @app.route("/MisBlogs")
 def MisBlogs():
 
     return render_template("MisBlogs.html")
 
-@app.route("/header")
+# Página para mostrar el detalle de un blog, los titulos deben ser un anchor
+# y al darles click nos envían acá, enviando el ID específico del blog
+# al que el usuario ha dado click
+@app.route("/blog")
 def header():
     return render_template("header.html")
 
