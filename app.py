@@ -39,7 +39,17 @@ def index():
 @app.route("/Recuperar")
 def Recuperar():
 
-    return render_template("recuperacion1.html")
+    if request.method =="GET":
+        return render_template("recuperacion1.html")
+    
+    else: 
+
+        correo = request.form.get("correo")
+
+        # Enviar correo de validación
+
+        return redirect("/Recuperar2")
+
 @app.route("/MisBlogs")
 def MisBlogs():
     
@@ -110,10 +120,7 @@ def resultados():
 
     return render_template("resultados.html")
 
-@app.route("/recuperacion")
-def recuperacion():
-
-    return render_template("recuperacion2.html")
+    
 
 
 
