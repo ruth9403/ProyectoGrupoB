@@ -111,7 +111,7 @@ def registro():
             return redirect("/")
         
         #else: 
-            # Alert o label para avisar que las contraseñas no coincideno que alguna
+            # Alert o label para avisar que las contraseñas no coinciden o que alguna
             # de las validaciones no paso
 
 
