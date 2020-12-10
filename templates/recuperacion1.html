@@ -17,6 +17,11 @@
                     <label for="rec2-form-password"> Correo </label>
                     <input class="rec2-group-input" type="email" id="rec2-form-password" name="correo" required>
                 </div>
+                {% if visible == True %}
+                    <table>
+                        <tr><td><label for="" style="color: red">{{mensaje}}</label></td></tr>
+                    </table>
+                {% endif %}
                 <div class="rec2-group" >
                     <button type="submit" class="button">Enviar Correo de Validación</button>
                     <td><a class = "button" href="/">Cancelar</a></td>

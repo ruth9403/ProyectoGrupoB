@@ -17,25 +17,25 @@ def validateUser(username, password):
 
 def Equals(a,b):
 
-    return  a == b 
+    return  a == b, "Los campos no coinciden" 
 
 
 def isEmailValid(email):
     is_valid = validate_email(email)
 
-    return is_valid
+    return is_valid, "Correo inválido"
 
 def isUsernameValid(user):
     if re.search(user_reguex, user):
-        return True
+        return True, ""
     else:
-        return False
+        return False, "Usuario inválido"
 
 def isPasswordValid(password):
 
     # Confirmar que la contraseña t
     if re.search(pass_reguex, password):
-        return True
+        return True, ""
     else:
-        return False
+        return False, "Contraseña inválida, necesita mínimo 8 caracteres, una mayúscula y un número"
 

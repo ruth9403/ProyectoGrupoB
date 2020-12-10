@@ -35,6 +35,11 @@
                     <label for="box-form-passCheck">Confirmar contraseña</label>
                     <input class="form-group-input" type="password" id="box-form-passCheck" name="passCheck" required>
                 </div>
+                {% if visible == True %}
+                    <table>
+                        <tr><td><label for="" style="color: red">{{mensaje}}</label></td></tr>
+                    </table>
+                {% endif %}
                 <button type="submit" class="button">Crear mi cuenta</button>
                 <div class="form-inicio">
                     <p class="box-form-p">¿Ya tienes cuenta?</p>

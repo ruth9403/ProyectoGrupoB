@@ -13,6 +13,16 @@ def index():
         return render_template("index.html", visible = False)
 
     else:
+        
+        textBuscar = request.form.get("barra_busqueda")
+
+        if textBuscar != "":
+
+            # Hacer select de la base de datos segun lo que esté en la barra de busqueda
+            # pasar un diccionario con los resultados
+
+            return redirect("/resultados")
+
         username = request.form.get("usuario")
         password = request.form.get("pass")
 
@@ -32,73 +42,11 @@ def index():
 
             return render_template("index.html", visible = True, mensaje= mensaje)
 
-
-
-@app.route("/Recuperar", methods = ["GET", "POST"])
-def Recuperar():
-
-    if request.method =="GET":
-        return render_template("recuperacion1.html")
-    
-    else: 
-
-        correo = request.form.get("correo")
-
-        # Enviar correo de validación
-
-        return redirect("/Recuperar2")
-
-@app.route("/MisBlogs")
-def MisBlogs():
-
-    return render_template("MisBlogs.html")
-
-@app.route("/Recuperar2", methods = ["GET", "POST"])
-def Recuperar2():
-
-    if request.method =="GET":
-        return render_template("recuperacion2.html")
-    
-    else:
-
-        newpass = request.form.get("password")
-        confirmpass = request.form.get("password2")
-
-        # Validación de que ambas contraseñas sen las mismas
-
-        if newpass == confirmpass:
-
-            # Hacer un update a la base de datos
-
-            # Si las contraseñas coinciden redirijo al usuario a la pagina de inicio para que se loguee
-            return redirect("/")
-        
-        #else:
-
-            # Alarm con Js o label en rojo
-
-@app.route("/verificacion", methods = ["GET", "POST"])
-def verificacion():
-
-    if request.method == "GET":
-        return render_template("paginaVerificacionCorreo.html")
-
-    else:
-
-
-
-
-
-@app.route("/header")
-def header():
-
-    return render_template("header.html")
-
 @app.route("/registro", methods = ["GET", "POST"])
 def registro():
 
     if request.method == "GET":
-        return render_template("registro.html")
+        return render_template("registro.html", visible = False, mensaje ="")
     
     else:
 
@@ -107,28 +55,94 @@ def registro():
         password = request.form.get("password")
         confirm = request.form.get("passCheck")
 
-        # Insertar validaciones de la profesora
-        # Verificar que la contraseña y su confirmación sean iguales
-        if password == confirm:
+        visible = False
 
-            # Estos datos deben usarse para hacer un insert en la tabla de usuarios en la base de datos
+        validUsuario, mensaje = isUsernameValid(username)
+        if not validUsuario:
+            visible = True
+            return render_template("registro.html", visible = True, mensaje =mensaje)
 
-            # Llamar un alert de js para avisar que ha sido registrado
+        validCorreo, mensaje = isEmailValid(correo)    
+        if not validCorreo:
+            visible = True
+            return render_template("registro.html", visible = True, mensaje =mensaje)
 
-            return redirect("/")
-        
-        #else: 
-            # Alert o label para avisar que las contraseñas no coinciden o que alguna
-            # de las validaciones no paso
+        validpassword, mensaje = isPasswordValid(password)    
+        if not validpassword:
+            visible = True
+            return render_template("registro.html", visible = True, mensaje =mensaje)
+
+        equals, mensaje = Equals(password, confirm)
+        if not equals:
+            visible = True
+            return render_template("registro.html", visible = True, mensaje =mensaje)
 
 
-@app.route("/resultados")
+        # Estos datos deben usarse para hacer un insert en la tabla de usuarios en la base de datos
+
+
+        return redirect("/")
+
+@app.route("/Recuperar", methods = ["GET", "POST"])
+def Recuperar():
+
+    if request.method =="GET":
+        return render_template("recuperacion1.html", visible = False, mensaje = "")
+    
+    else: 
+
+        correo = request.form.get("correo")
+        validCorreo, mensaje = isEmailValid(correo)
+
+        if not validCorreo:
+            return render_template("recuperacion1.html", visible = True, mensaje = mensaje)
+
+        return redirect("/verificacion")
+
+@app.route("/Recuperar2", methods = ["GET", "POST"])
+def Recuperar2():
+
+    if request.method =="GET":
+        return render_template("recuperacion2.html", visible = False, mensaje = "")
+    
+    else:
+
+        newpass = request.form.get("password")
+        confirmpass = request.form.get("password2")
+        validPass, mensaje = Equals(newpass, confirmpass)
+
+        if not validPass:
+            # Debe ir un update a la base de datos
+            return render_template("recuperacion2.html", visible = True, mensaje = mensaje)
+            
+        # Si las contraseñas coinciden redirijo al usuario a la pagina de inicio para que se loguee
+        return redirect("/")
+
+
+@app.route("/MisBlogs")
+def MisBlogs():
+
+    return render_template("MisBlogs.html")
+
+
+
+@app.route("/verificacion", methods = ["GET", "POST"])
+def verificacion():
+
+    if request.method == "GET":
+        return render_template("paginaVerificacionCorreo.html")
+
+    #else:
+
+
+@app.route("/header")
+def header():
+    return render_template("header.html")
+
+
+@app.route("/resultados", methods = ["GET", "POST"])
 def resultados():
 
     return render_template("resultados.html")
 
     
-
-
-
-# nos quedamos con header
