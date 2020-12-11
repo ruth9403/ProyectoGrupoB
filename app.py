@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
-from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswordValid
+from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswordValid, isEmpty
 
 app = Flask(__name__)
 
@@ -10,36 +10,46 @@ def index():
 
     if request.method =="GET":
         
-        return render_template("index.html", visible = False)
+        return render_template("index.html", visible = False, mensaje = "")
 
     else:
         
         textBuscar = request.form.get("barra_busqueda")
+        username = request.form.get("usuario")
+        password = request.form.get("pass")
+        print(textBuscar, username, password)
 
-        if textBuscar != "":
+        # Reconocemos que el usuario quiere hacer ubna búsqueda porque
+        # el cuadro de búsqueda tiene al menos un caracter
+        # mientras que no llega nada por parte del input usuario y el 
+        # de contraseña
+        if textBuscar != "" and username == None and password == None:
 
             # Hacer select de la base de datos segun lo que esté en la barra de busqueda
             # pasar un diccionario con los resultados
 
             return redirect("/resultados_sinsesion")
 
-        username = request.form.get("usuario")
-        password = request.form.get("pass")
+        # Las validaciones que se hacen para iniciar sesión son:
 
+        # 1. Verificar que no estén vacios los campos (inputs de texto)
+        userEmpty, mensaje = isEmpty(username) 
+        passEmpty, mensaje = isEmpty(password)
+
+        if userEmpty or passEmpty:
+            return render_template("index.html", visible = True, mensaje = mensaje)
+
+        # 2. Si los campos no están vacios se verificará en la base de datos que
+        # la persona esté registrada. Por ahora solo validamos el usuario con valores
+        # fijos (Usuario = usuario, password = 123)
         validUser = validateUser(username, password)
 
+        # Si es un usuario válido se redirige a sus blogs
         if validUser:
             return redirect("/MisBlogs")
         else:
 
             mensaje = "Usuario no registrado"
-
-            if username == "":
-                mensaje = "Ingrese un nombre de usuario válido"
-            
-            elif password == "":
-                mensaje = "Ingrese una contraseña válida"
-
             return render_template("index.html", visible = True, mensaje= mensaje)
 
 # Ruta para la página de registro
@@ -121,6 +131,18 @@ def Recuperar2():
 
         newpass = request.form.get("password")
         confirmpass = request.form.get("password2")
+
+        # Validación 1: La contraseña nueva debe cumplir con las validaciones
+        # de contraseña usadas para registro
+
+        validnewPass, mensaje = isPasswordValid(newpass)
+        validConfirmPass, mensaje = isPasswordValid(confirmpass)
+
+        if not validnewPass or not validConfirmPass:
+            return render_template("recuperacion2.html", visible = True, mensaje = mensaje)
+
+        # Validación 2: Si ambos campos cumplen con las validaciones de contraseña para
+        # registro ahora se debe verificar que ambos campos coincidan
         validPass, mensaje = Equals(newpass, confirmpass)
 
         if not validPass:
@@ -129,6 +151,7 @@ def Recuperar2():
             
         # Si las contraseñas coinciden redirijo al usuario a la pagina de inicio para que se loguee
         return redirect("/")
+
 
 # Resultados de búsqueda de blogs cuando no se ha iniciado sesión
 @app.route("/resultados_sinsesion", methods = ["GET", "POST"])
@@ -174,7 +197,7 @@ def MisBlogs():
 # al que el usuario ha dado click
 @app.route("/blog")
 def header():
-    return render_template("header.html")
+    return render_template("detalleBlog.html")
 
 
 
