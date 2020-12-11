@@ -1,12 +1,32 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
-from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswordValid, isEmpty
+from tempfile import mkdtemp
+from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswordValid, isEmpty, login_required
 
 app = Flask(__name__)
+
+# Asegurarse de Recargar templates
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+# Asegúrese de que las respuestas no se almacenen en caché
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
+# Configurar la sesión para usar el sistema de archivos (en lugar de cookies)
+app.config["SESSION_FILE_DIR"] = mkdtemp()
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 # Añado la ruta por defecto (Index)
 @app.route("/", methods = ["GET", "POST"])
 def index():
+
+    session.clear()
 
     if request.method =="GET":
         
@@ -17,7 +37,6 @@ def index():
         textBuscar = request.form.get("barra_busqueda")
         username = request.form.get("usuario")
         password = request.form.get("pass")
-        print(textBuscar, username, password)
 
         # Reconocemos que el usuario quiere hacer ubna búsqueda porque
         # el cuadro de búsqueda tiene al menos un caracter
@@ -46,6 +65,7 @@ def index():
 
         # Si es un usuario válido se redirige a sus blogs
         if validUser:
+            session["user_id"] = "usuarioPruebas"
             return redirect("/MisBlogs")
         else:
 
@@ -161,12 +181,14 @@ def resultados_sinsesion():
 
 # Resultados de búsqueda de blogs cuando se ha iniciado sesión
 @app.route("/resultados", methods = ["GET", "POST"])
+@login_required
 def resultados():
 
     return render_template("resultados.html")
 
 # Página para hacer búsquedas cuando se ha iniciado sesión
 @app.route("/buscar", methods = ["GET", "POST"])
+@login_required
 def buscar():
 
     if request.method == "GET":
@@ -188,6 +210,7 @@ def buscar():
 
 # Página de los blogs del usuario logueado
 @app.route("/MisBlogs", methods = ["GET", "POST"])
+@login_required
 def MisBlogs():
 
     if request.method == "GET":
@@ -211,6 +234,7 @@ def MisBlogs():
 # y al darles click nos envían acá, enviando el ID específico del blog
 # al que el usuario ha dado click
 @app.route("/blog")
+@login_required
 def header():
     return render_template("detalleBlog.html")
 
@@ -220,6 +244,7 @@ def blog_sinsesion():
 
 # Página para edición de un blog particular
 @app.route("/Editar", methods = ["GET", "POST"])
+@login_required
 def Editar():
 
     if request.method == "GET":
@@ -237,6 +262,20 @@ def Editar():
         if btnGuardar == "Guardar":
             # Hacer update en la base de datos
             return redirect("/MisBlogs")
+
+# Cerrar sesión
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
+
+if __name__ == "__main__":
+    app.run(debug = True, port=8000)
 
 
 

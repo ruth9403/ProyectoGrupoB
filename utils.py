@@ -1,5 +1,8 @@
 import re
 from validate_email import validate_email
+from functools import wraps
+from flask import redirect, render_template, request, session
+import urllib.request
 
 pass_reguex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\W_]{8,}$"
 user_reguex = "^[a-zA-Z0-9_.-]+$"
@@ -43,3 +46,15 @@ def isPasswordValid(password):
     else:
         return False, "Contraseña inválida, necesita mínimo 8 caracteres, una mayúscula y un número"
 
+def login_required(f):
+    """
+    Decorate routes to require login.
+
+    http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/")
+        return f(*args, **kwargs)
+    return decorated_function
