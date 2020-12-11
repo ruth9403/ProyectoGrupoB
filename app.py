@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
-from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswordValid
+from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswordValid, isEmpty
 
 app = Flask(__name__)
 
@@ -10,36 +10,46 @@ def index():
 
     if request.method =="GET":
         
-        return render_template("index.html", visible = False)
+        return render_template("index.html", visible = False, mensaje = "")
 
     else:
         
         textBuscar = request.form.get("barra_busqueda")
+        username = request.form.get("usuario")
+        password = request.form.get("pass")
+        print(textBuscar, username, password)
 
-        if textBuscar != "":
+        # Reconocemos que el usuario quiere hacer ubna búsqueda porque
+        # el cuadro de búsqueda tiene al menos un caracter
+        # mientras que no llega nada por parte del input usuario y el 
+        # de contraseña
+        if textBuscar != "" and username == None and password == None:
 
             # Hacer select de la base de datos segun lo que esté en la barra de busqueda
             # pasar un diccionario con los resultados
 
             return redirect("/resultados_sinsesion")
 
-        username = request.form.get("usuario")
-        password = request.form.get("pass")
+        # Las validaciones que se hacen para iniciar sesión son:
 
+        # 1. Verificar que no estén vacios los campos (inputs de texto)
+        userEmpty, mensaje = isEmpty(username) 
+        passEmpty, mensaje = isEmpty(password)
+
+        if userEmpty or passEmpty:
+            return render_template("index.html", visible = True, mensaje = mensaje)
+
+        # 2. Si los campos no están vacios se verificará en la base de datos que
+        # la persona esté registrada. Por ahora solo validamos el usuario con valores
+        # fijos (Usuario = usuario, password = 123)
         validUser = validateUser(username, password)
 
+        # Si es un usuario válido se redirige a sus blogs
         if validUser:
             return redirect("/MisBlogs")
         else:
 
             mensaje = "Usuario no registrado"
-
-            if username == "":
-                mensaje = "Ingrese un nombre de usuario válido"
-            
-            elif password == "":
-                mensaje = "Ingrese una contraseña válida"
-
             return render_template("index.html", visible = True, mensaje= mensaje)
 
 # Ruta para la página de registro
