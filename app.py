@@ -23,7 +23,7 @@ def index():
         # el cuadro de búsqueda tiene al menos un caracter
         # mientras que no llega nada por parte del input usuario y el 
         # de contraseña
-        if textBuscar != "" and username == None and password == None:
+        if textBuscar != "" and (username == None or username == "") and (password == None or password == ""):
 
             # Hacer select de la base de datos segun lo que esté en la barra de busqueda
             # pasar un diccionario con los resultados
@@ -187,17 +187,58 @@ def buscar():
 
 
 # Página de los blogs del usuario logueado
-@app.route("/MisBlogs")
+@app.route("/MisBlogs", methods = ["GET", "POST"])
 def MisBlogs():
 
-    return render_template("MisBlogs.html")
+    if request.method == "GET":
+        return render_template("MisBlogs.html")
+    
+    else:
 
-# Página para mostrar el detalle de un blog, los titulos deben ser un anchor
+        # Pregunto qué botón hizo el request, eliminar o editar
+        btnEditar = request.form.get("Editar")
+        btnEliminar = request.form.get("Eliminar")
+        
+        if btnEditar == "Editar":
+            return redirect("/Editar")
+
+        if btnEliminar == "Eliminar":
+            # Hacer delete a la base de datos
+            return redirect("/MisBlogs")
+
+
+# Página para mostrar el detalle de un blog, los titulos son un anchor
 # y al darles click nos envían acá, enviando el ID específico del blog
 # al que el usuario ha dado click
 @app.route("/blog")
 def header():
     return render_template("detalleBlog.html")
+
+@app.route("/blog_sinSesion")
+def blog_sinsesion():
+    return render_template("detalleBlog_SinSesion.html")
+
+# Página para edición de un blog particular
+@app.route("/Editar", methods = ["GET", "POST"])
+def Editar():
+
+    if request.method == "GET":
+        return render_template("edicionBlog.html")
+
+    else:
+
+        # Pregunto si el botón de request es el de guardar o el de cancelar
+        btnGuardar = request.form.get("Guardar")
+        btnCancelar = request.form.get("Cancelar")
+
+        if btnCancelar == "Cancelar":
+            return redirect("/MisBlogs")
+        
+        if btnGuardar == "Guardar":
+            # Hacer update en la base de datos
+            return redirect("/MisBlogs")
+
+
 
 
 

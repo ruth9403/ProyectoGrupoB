@@ -22,7 +22,7 @@
                 <li><a href="/buscar">Buscar</a></li>
             </ul>
         </nav>
-        <div style="text-align: center; width: 300px;"><button class="button">Cerrar Sesión</button></div>
+        <div style="text-align: center; width: 300px;"><button class="button"><a href="/">Cerrar Sesión</a></button></div>
     </header>
 
     <section class="box">
@@ -54,9 +54,11 @@
                         <div class="col-4 botones_articulo">
                             <!-- <input type="submit" value="Editar"><br><br>
                 <input type="submit" value="Eliminar"> -->
-                            <div style="text-align: center;"><button type="submit" class="button">Editar</button></div>
-                            <div style="text-align: center;"><button type="submit" class="button">Eliminar</button></div>
-                        </div>
+                          <form action="/MisBlogs" method="POST">
+                            <div style="text-align: center;"><button type="submit" class="button" value = "Editar" name="Editar">Editar</button></div>
+                            <div style="text-align: center;"><button type="submit" class="button" value = "Eliminar" name = "Eliminar">Eliminar</button></div>
+                          </form>
+                          </div>
                     </div>
                 </div>
             </article>
