@@ -131,6 +131,18 @@ def Recuperar2():
 
         newpass = request.form.get("password")
         confirmpass = request.form.get("password2")
+
+        # Validación 1: La contraseña nueva debe cumplir con las validaciones
+        # de contraseña usadas para registro
+
+        validnewPass, mensaje = isPasswordValid(newpass)
+        validConfirmPass, mensaje = isPasswordValid(confirmpass)
+
+        if not validnewPass or not validConfirmPass:
+            return render_template("recuperacion2.html", visible = True, mensaje = mensaje)
+
+        # Validación 2: Si ambos campos cumplen con las validaciones de contraseña para
+        # registro ahora se debe verificar que ambos campos coincidan
         validPass, mensaje = Equals(newpass, confirmpass)
 
         if not validPass:
