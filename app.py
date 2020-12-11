@@ -152,6 +152,7 @@ def Recuperar2():
         # Si las contraseñas coinciden redirijo al usuario a la pagina de inicio para que se loguee
         return redirect("/")
 
+
 # Resultados de búsqueda de blogs cuando no se ha iniciado sesión
 @app.route("/resultados_sinsesion", methods = ["GET", "POST"])
 def resultados_sinsesion():
@@ -196,7 +197,7 @@ def MisBlogs():
 # al que el usuario ha dado click
 @app.route("/blog")
 def header():
-    return render_template("header.html")
+    return render_template("detalleBlog.html")
 
 
 
