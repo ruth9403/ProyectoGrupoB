@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,73 +8,87 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Maven+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="/static/styles.css">
 
 </head>
+
 <body>
-    
+
 
     <main class="registro-main">
-    
+
         <section class="box">
             <h1 class="box-title">Regístrate</h1>
             <hr class="box-bar">
-            <form class= "box-form" action="/registro" method="POST">
+            <form class="box-form" action="/registro" method="POST">
                 <div class="form-group">
-                    <label for="box-form-username"> Nombre de Usuario</label>
+                    <label for="box-form-username" class="label-text"> Nombre de Usuario</label>
                     <input class="form-group-input" type="text" id="box-form-username" placeholder="pedroP1" name="username" required>
                 </div>
                 <div class="form-group">
-                    <label for="box-form-email">Correo</label>
+                    <label for="box-form-email" class="label-text">Correo</label>
                     <input class="form-group-input" type="email" name="email" id="box-form-email" placeholder="pedro1@correo.com" required>
                 </div>
                 <div class="form-group">
-                    <label for="box-form-pass">Contraseña</label>
+                    <label for="box-form-pass" class="label-text">Contraseña</label>
                     <input class="form-group-input" type="password" id="box-form-pass" name="password" required>
                 </div>
                 <div class="form-group">
-                    <label for="box-form-passCheck">Confirmar contraseña</label>
+                    <label for="box-form-passCheck" class="label-text">Confirmar contraseña</label>
                     <input class="form-group-input" type="password" id="box-form-passCheck" name="passCheck" required>
                 </div>
                 {% if visible == True %}
-                    <table>
-                        <tr><td><label for="" style="color: red">{{mensaje}}</label></td></tr>
-                    </table>
+                <table>
+                    <tr>
+                        <td><label for="" style="color: #F93800">{{mensaje}}</label></td>
+                    </tr>
+                </table>
                 {% endif %}
                 <button type="submit" class="button">Crear mi cuenta</button>
                 <div class="form-inicio">
                     <p class="box-form-p">¿Ya tienes cuenta?</p>
                     <a class="box-form-a" href="/" target="_blank" rel="noopener noreferrer">Inicio</a>
                 </div>
-    
+
             </form>
         </section>
     </main>
 
-      <div class="footer">
+    <div class="footer">
         <div class="container">
             <div class="row">
-              <div class="col-sm-8" style="text-align: center;">
-                  <table>
-                      <tr>
-                          <td><a class="links_footer" href="#">About us</a></td>
-                          <td><a class="links_footer" href="#">Política de privacidad</a></td>
-                      </tr>
-                  </table>
-              </div>
-              <div class="col-sm-4">
-                <table>
-                    <tr>
-                        <td><a href="#"><img src="/static/linkedin.PNG" alt="Linkedin" class="socialmedia"></a></td>
-                        <td><a href="#"><img src="/static/fb.PNG" alt="Facebook" class="socialmedia"></a></td>
-                        <td><a href="#"><img src="/static/ig.PNG" alt="Instagram" class="socialmedia"></a></td>
-                        <td><a href="#"><img src="/static/tw.PNG" alt="Twitter" class="socialmedia"></a></td>
-                    </tr>
-                </table>
-              </div>
+                <div class="col-sm-8" style="text-align: center;">
+                    <table>
+                        <tr>
+                            <td><a class="links_footer" href="#">About us</a></td>
+                            <td><a class="links_footer" href="#">Política de privacidad</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-sm-4">
+                    <table>
+                        <tr>
+                            <td>
+                                <a href="#"><img src="/static/linkedin.PNG" alt="Linkedin" class="socialmedia"></a>
+                            </td>
+                            <td>
+                                <a href="#"><img src="/static/fb.PNG" alt="Facebook" class="socialmedia"></a>
+                            </td>
+                            <td>
+                                <a href="#"><img src="/static/ig.PNG" alt="Instagram" class="socialmedia"></a>
+                            </td>
+                            <td>
+                                <a href="#"><img src="/static/tw.PNG" alt="Twitter" class="socialmedia"></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-          </div>
-      </div>
-      
+        </div>
+    </div>
+
 </body>
+
 </html>
