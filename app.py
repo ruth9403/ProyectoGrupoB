@@ -5,6 +5,9 @@ from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswor
 from werkzeug.security import check_password_hash, generate_password_hash
 from cs50 import SQL 
 from datetime import date
+import sqlite3
+from datetime import date
+
 
 app = Flask(__name__)
 
@@ -79,17 +82,6 @@ def index():
             return redirect("/MisBlogs")
 
 
-        validUser = validateUser(username, password)
-
-        # Si es un usuario válido se redirige a sus blogs
-        if validUser:
-            session["user_id"] = "usuarioPruebas"
-            return redirect("/MisBlogs")
-        else:
-
-            mensaje = "Usuario no registrado"
-            return render_template("index.html", visible = True, mensaje= mensaje)
-
 # Ruta para la página de registro
 @app.route("/registro", methods = ["GET", "POST"])
 def registro():
@@ -103,6 +95,9 @@ def registro():
         correo = request.form.get("email")
         password = request.form.get("password")
         confirm = request.form.get("passCheck")
+        
+        today = date.today()
+        dt_string = today.strftime("%Y/%m/%d")
 
         visible = False
 
@@ -126,7 +121,19 @@ def registro():
             visible = True
             return render_template("registro.html", visible = True, mensaje =mensaje)
 
-            
+        # Estos datos deben usarse para hacer un insert en la tabla de usuarios en la base de datos
+
+        hash_pass = generate_password_hash(password)
+        try:
+            with sqlite3.connect("BLOG_B.db") as con:
+                cur = con.cursor() #Manipula la conexión a la bd
+                cur.execute("INSERT INTO usuario (nombre, apellido, user_name, contrasena, correo, fecha_ingreso) VALUES (?,?,?,?,?,?)",
+                            (username, username, username, hash_pass, correo, dt_string))
+                con.commit() #confirma la sentencia
+                return redirect("/")
+        except :
+            con.rollback()
+
         return redirect("/")
 
 # Ruta para la primera página de recuperación de contraseña (donde se pide el correo)
@@ -229,6 +236,21 @@ def buscar():
 def MisBlogs():
 
     if request.method == "GET":
+
+        # Query a la base de datos para obtener los blogs del usuario
+        usuario = session["user_id"]
+
+        userBlogs = db.execute("SELECT * FROM publicacion WHERE id_usuarioPub = :idUser",
+                          idUser=usuario)
+        
+        if len(userBlogs) == 0:
+            mensaje = "No tienes ningún blog asociado a tu cuenta"
+
+        else:
+            return render_template("MisBlogs.html")
+
+        print(userBlogs)
+
         return render_template("MisBlogs.html")
     
     else:
@@ -248,10 +270,30 @@ def MisBlogs():
 # Página para mostrar el detalle de un blog, los titulos son un anchor
 # y al darles click nos envían acá, enviando el ID específico del blog
 # al que el usuario ha dado click
-@app.route("/blog")
+@app.route("/blog", methods = ["GET", "POST"])
 @login_required
 def header():
-    return render_template("detalleBlog.html")
+    if request.method == "GET":
+        return render_template("detalleBlog.html")
+    else:
+
+        comentario = request.form.get("nuevoComentario")
+        usuario = session["user_id"]
+        id_publicacionCom = 1
+        today = date.today()
+        dt_string = today.strftime("%Y/%m/%d")
+        try:
+            with sqlite3.connect("BLOG_B.db") as con:
+                cur = con.cursor() #Manipula la conexión a la bd
+                cur.execute("INSERT INTO comentario (fecha_publicacionCom, cuerpo_comentario) VALUES (?,?)",
+                            ("", comentario))
+                con.commit() #confirma la sentencia
+                return "Comentario publicado"
+        except :
+            con.rollback()       
+
+
+        return render_template("detalleBlog.html")
 
 @app.route("/blog_sinSesion")
 def blog_sinsesion():
@@ -291,6 +333,11 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug = True, port=8000)
+
+
+
+
+
 
 
 
