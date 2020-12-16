@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 from tempfile import mkdtemp
 from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswordValid, isEmpty, login_required
+from werkzeug.security import check_password_hash, generate_password_hash
+from cs50 import SQL 
+from datetime import date
 
 app = Flask(__name__)
 
@@ -21,6 +24,9 @@ app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
+# Configurar librería CS50 para trabajar con la base de datos
+db = SQL("sqlite:///BLOG_B.db")
 
 # Añado la ruta por defecto (Index)
 @app.route("/", methods = ["GET", "POST"])
@@ -59,8 +65,20 @@ def index():
             return render_template("index.html", visible = True, mensaje = mensaje)
 
         # 2. Si los campos no están vacios se verificará en la base de datos que
-        # la persona esté registrada. Por ahora solo validamos el usuario con valores
-        # fijos (Usuario = usuario, password = 123)
+        # la persona esté registrada.
+
+        # Query a la base de datos para verificar username
+        rows = db.execute("SELECT * FROM usuario WHERE user_name = :username",
+                          username=username)
+
+        if len(rows) != 1 or not check_password_hash(rows[0]["contrasena"], password):
+            mensaje = "Usuario no registrado"
+            return render_template("index.html", visible = True, mensaje= mensaje)
+        else:
+            session["user_id"] = rows[0]["id_usuario"]
+            return redirect("/MisBlogs")
+
+
         validUser = validateUser(username, password)
 
         # Si es un usuario válido se redirige a sus blogs
@@ -108,10 +126,7 @@ def registro():
             visible = True
             return render_template("registro.html", visible = True, mensaje =mensaje)
 
-
-        # Estos datos deben usarse para hacer un insert en la tabla de usuarios en la base de datos
-
-
+            
         return redirect("/")
 
 # Ruta para la primera página de recuperación de contraseña (donde se pide el correo)
