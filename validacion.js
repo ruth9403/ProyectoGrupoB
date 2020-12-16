@@ -10,23 +10,28 @@ const msj = document.getElementById('msj');
  */
 form.addEventListener('submit', (e) =>{
     estado = false;
-    if(inputname.textContent.length == 0){
+    if(inputname.value == ''){
         console.log('Digite un nombre de usuario');
+        estado=true;
+        //msj.value = 'ups';
         alert('Digite un nombre de usuario');
-        msj.textContent = 'ups'
-    }else if(inputpass.value.length == 0 || inputpass.nodeValue.length<8){
-        alert('Debe ingresar una clave con mínimo 8 caracteres');
+    }else if(inputpass.value.length == 0 || inputpass.value.length<8){
         console.log('Debe ingresar una clave con mínimo 8 caracteres');
-        msj.textContent = 'ups'
-    }else if(inputpass.nodeValue != inputpasscheck.nodeValue){
-        alert('Sus contraseñas no coinciden');
+        estado=true;
+        //msj.value = 'ups'
+        alert('Debe ingresar una clave con mínimo 8 caracteres');
+    }else if(inputpass.value!= inputpasscheck.value){
         console.log('Sus contraseñas no coinciden');
-        msj.textContent = 'ups'
+        estado=true;
+        //msj.value = 'ups'
+        alert('Sus contraseñas no coinciden');
     }else{
-        estado = true;
+        estado = false;
+        console.log('Entré aqui-puede registrarse pasar!!')
     }
-    
-    if(estado== true){
+
+    if(estado == true){
         e.preventDefault();
+        estado=false;
     }
 });
