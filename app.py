@@ -261,8 +261,8 @@ def header():
         try:
             with sqlite3.connect("BLOG_B.db") as con:
                 cur = con.cursor() #Manipula la conexión a la bd
-                cur.execute("INSERT INTO comentario (fecha_publicacionCom, cuerpo_comentario) VALUES (?,?)",
-                            ("", comentario))
+                cur.execute("INSERT INTO comentario (id_usuarioCom, fecha_publicacionCom, cuerpo_comentario, id_publicacionCom) VALUES (?,?,?,?)",
+                            (usuario, dt_string, comentario, id_publicacionCom))
                 con.commit() #confirma la sentencia
                 return "Comentario publicado"
         except :
