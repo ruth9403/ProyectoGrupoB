@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 from tempfile import mkdtemp
 from utils import validateUser, Equals, isEmailValid, isUsernameValid, isPasswordValid, isEmpty, login_required
+from werkzeug.security import check_password_hash, generate_password_hash
+from cs50 import SQL 
+from datetime import date
 import sqlite3
 from datetime import date
 
@@ -24,6 +27,9 @@ app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
+# Configurar librería CS50 para trabajar con la base de datos
+db = SQL("sqlite:///BLOG_B.db")
 
 # Añado la ruta por defecto (Index)
 @app.route("/", methods = ["GET", "POST"])
@@ -62,18 +68,19 @@ def index():
             return render_template("index.html", visible = True, mensaje = mensaje)
 
         # 2. Si los campos no están vacios se verificará en la base de datos que
-        # la persona esté registrada. Por ahora solo validamos el usuario con valores
-        # fijos (Usuario = usuario, password = 123)
-        validUser = validateUser(username, password)
+        # la persona esté registrada.
 
-        # Si es un usuario válido se redirige a sus blogs
-        if validUser:
-            session["user_id"] = "usuarioPruebas"
-            return redirect("/MisBlogs")
-        else:
+        # Query a la base de datos para verificar username
+        rows = db.execute("SELECT * FROM usuario WHERE user_name = :username",
+                          username=username)
 
+        if len(rows) != 1 or not check_password_hash(rows[0]["contrasena"], password):
             mensaje = "Usuario no registrado"
             return render_template("index.html", visible = True, mensaje= mensaje)
+        else:
+            session["user_id"] = rows[0]["id_usuario"]
+            return redirect("/MisBlogs")
+
 
 # Ruta para la página de registro
 @app.route("/registro", methods = ["GET", "POST"])
@@ -115,13 +122,15 @@ def registro():
             return render_template("registro.html", visible = True, mensaje =mensaje)
 
         # Estos datos deben usarse para hacer un insert en la tabla de usuarios en la base de datos
+
+        hash_pass = generate_password_hash(password)
         try:
             with sqlite3.connect("BLOG_B.db") as con:
                 cur = con.cursor() #Manipula la conexión a la bd
                 cur.execute("INSERT INTO usuario (nombre, apellido, user_name, contrasena, correo, fecha_ingreso) VALUES (?,?,?,?,?,?)",
-                            (username, username, username, password, correo, dt_string))
+                            (username, username, username, hash_pass, correo, dt_string))
                 con.commit() #confirma la sentencia
-                return "Se registró satisfactoriamente"
+                return redirect("/")
         except :
             con.rollback()
 
@@ -227,6 +236,21 @@ def buscar():
 def MisBlogs():
 
     if request.method == "GET":
+
+        # Query a la base de datos para obtener los blogs del usuario
+        usuario = session["user_id"]
+
+        userBlogs = db.execute("SELECT * FROM publicacion WHERE id_usuarioPub = :idUser",
+                          idUser=usuario)
+        
+        if len(userBlogs) == 0:
+            mensaje = "No tienes ningún blog asociado a tu cuenta"
+
+        else:
+            return render_template("MisBlogs.html")
+
+        print(userBlogs)
+
         return render_template("MisBlogs.html")
     
     else:
