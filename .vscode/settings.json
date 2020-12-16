@@ -1,3 +1,8 @@
 {
+<<<<<<< HEAD
+    "python.pythonPath": "C:\\Users\\afrom\\anaconda3\\python.exe"
+    "python.pythonPath": "/bin/python"
+=======
     "python.pythonPath": "C:\\Users\\maria\\anaconda3\\python.exe"
+>>>>>>> f09479dae7cf1cec8fedabb598220fc24eb56fd9
 }
