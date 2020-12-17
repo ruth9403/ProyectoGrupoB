@@ -364,7 +364,7 @@ def Editar():
 @login_required
 def nuevoBlog():
     if request.method == "GET":
-        
+
         return render_template("nuevoBlog.html")
     else:
         btnCancelar = request.form.get("Cancelar")
@@ -374,14 +374,23 @@ def nuevoBlog():
 
             return redirect("/MisBlogs")
         else:
-            # Obtengo todos los campos necesarios para insertar un nuevo blog
+            #Obtengo todos los campos necesarios para insertar un nuevo blog
             titulo = request.form.get("titulo")
             encabezado = request.form.get("encabezado")
             contenido = request.form.get("contenido")
-
-            db.execute("INSERT INTO publicacion (titulo, cuerpo, title, year, kind, genres, rating, casting, directors, url_image) VALUES (:user_id, \
-                :movie_id, :title, :year, :kind, :genres, :rating, :casting, :directors, :url_image)", user_id = session["user_id"], movie_id = movie_id, title = movie_title, year= movie_year, kind= movie_kind, \
-                    genres= movie_genre, rating= movie_rating, casting= "", directors= movie_director, url_image = movie_cover)
+            publico = request.form.get("publico")
+            publico = publico == 'on'
+            today = date.today()
+            dt_string = today.strftime("%Y/%m/%d")
+            categoria = 1
+            usuario = session["user_id"]
+        
+            db.execute("INSERT INTO publicacion (titulo, cuerpo, es_publico, fecha_publicacion, \
+                id_categoriaPub, id_usuarioPub) VALUES (:titulo,:cuerpo, :publico, :fecha, \
+                    :categoria, :usuario)", titulo = titulo, cuerpo = contenido, publico = publico,
+                    fecha = dt_string, categoria = categoria, usuario = usuario)
+        
+            return redirect("/MisBlogs")
 
         return render_template("nuevoBlog.html")
 
