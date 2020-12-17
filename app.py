@@ -153,6 +153,20 @@ def Recuperar():
 
         return redirect("/verificacion")
 
+        #Se revisa que exista el correo en la base de datos
+        try:
+            with sqlite3.connect("BLOG_B.db") as con:
+                cur = con.cursor() #Manipula la conexión a la bd
+                cur.execute("SELECT * FROM usuario WHERE correo = ?", correo)
+                con.commit() #confirma la sentencia
+                row = cur.fetchone()
+                if row is None:
+                    flash("Correo no se encuentra registrado en la BD")
+                    print("Correo no se encuentra registrado en la BD")
+                return render_template("recuperacion1.html", visible = True, mensaje= mensaje)
+        except :
+            con.rollback()
+    return redirect("/")
 
 # Ruta para la segunda página de recuperación de contraseña (donde se avisa al usuario que se ha enviado un correo)
 @app.route("/verificacion", methods = ["GET", "POST"])
@@ -257,18 +271,30 @@ def MisBlogs():
         # Pregunto qué botón hizo el request, eliminar o editar
         btnEditar = request.form.get("Editar")
         btnEliminar = request.form.get("Eliminar")
+        btnAgregar = request.form.get("agregar")
+
+        if btnAgregar != "" and btnAgregar != None:
+            return redirect("/nuevoBlog")
 
         if btnEliminar == "" or btnEliminar == None:
             blogId = btnEditar.split(",")[1]
             return redirect("/Editar", blogId = blogId)
 
         else:
-            print("ID DEL BLOG:")
+            
             blogId = btnEliminar.split(",")[1]
+            # Hacer delete a la base de datos
+            try:
+                with sqlite3.connect("BLOG_B.db") as con:
+                    cur = con.cursor() #Manipula la conexión a la bd
+                    cur.execute("DELETE FROM publicacion WHERE id_publicacion = ?", blogId)
+                    con.commit() #confirma la sentencia
+                    return "Blog Borrado"
+            except :
+                con.rollback()       
             
-            
-
             return redirect("/MisBlogs")
+
 
 
 
@@ -322,8 +348,26 @@ def Editar():
             return redirect("/MisBlogs")
         
         if btnGuardar == "Guardar":
-            # Hacer update en la base de datos
+            # Hacer update en la base de datos ## debe ser la misma de crear blog
+            editblog = session["id_publicacion"]
+            try:
+                with sqlite3.connect("BLOG_B.db") as con:
+                    cur = con.cursor() #Manipula la conexión a la bd
+                    cur.execute("UPDATE FROM publicacion WHERE id_publicacion = ?", editblog)
+                    con.commit() #confirma la sentencia
+                    return "Blog Actualizado"
+            except :
+                con.rollback()       
             return redirect("/MisBlogs")
+
+# Ruta para agregar un nuevo blog
+@app.route("/nuevoBlog", methods = ["GET", "POST"])
+@login_required
+def nuevoBlog():
+    if request.method == "GET":
+        return render_template("nuevoBlog.html")
+    else:
+        return render_template("nuevoBlog.html")
 
 # Cerrar sesión
 @app.route("/logout")
