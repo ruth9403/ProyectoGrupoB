@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- Estilos css para insertar en styles.css -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Maven+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/styles.css">
+    <title>Document</title>
 </head>
 
-<body id="body_index">
+<body>
+
+    <!-- Header para insertar en layout -->
 
     <header>
         <img class="logo" src="/static/logo.svg" alt="logo">
@@ -22,53 +25,40 @@
                 <li><a href="/buscar">Buscar</a></li>
             </ul>
         </nav>
-        <div style="text-align: center; width: 300px;"><button class="button"><a href="/logout">Cerrar Sesión</a></button></div>
+        <div style="text-align: center; width: 300px;"><button class="button"><a href="/">Cerrar Sesión</a></button></div>
     </header>
-    <div>
-        <form action="/MisBlogs" method="POST">
-            <div style="text-align: center;"><button type="submit" class="button" value = "agregar" name="agregar">Crear un nuevo blog</button></div>
-        </form>
-    </div>
-    <section class="box">
-        <div>
-            {% for blog in userBlogs %}
-            <article class="articulo">
-                <div class="container">
-                    <div class="row" id="blog">
-                        <div class="col-8">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <t2 class="titulo_blog"><a href="/blog">{{ blog["titulo"] }}</a></t2>
-                                    </td>
-                                </tr class="titulo">
-                                <tr>
-                                    <td>
-                                        <t3 class="fechas">{{ blog["fecha_publicacion"] }}</t3>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>{{ blog["cuerpo"] }}</p>
-                                    </td>
 
-                                </tr>
-                            </table>
+    <!-- Cierre header -->
+
+    <!-- Contenedor de columnas para blog y comentarios -->
+
+    <div id="body_pub">
+        <section class="box-publication">
+            <div class="grid-container-pub">
+                <div class="grid-container-editPub">
+                    <form action="/Editar", method="POST">
+                        <div class="editarTitulo">
+                            <h5>Editar publicación</h5>
+                            <label for="">Editar titulo</label>
+                            <textarea name="titulo" id="" cols="100%" rows="2"></textarea>
                         </div>
-                        <div class="col-4 botones_articulo">
-                        <form action="/MisBlogs" method="POST">
-                            <div style="text-align: center;"><button type="submit" class="button" value = "Editar,{{ blog['id_publicacion'] }}" name="Editar">Editar</button></div>
-                            <div style="text-align: center;"><button type="submit" class="button" value = "Eliminar,{{ blog['id_publicacion'] }}" name = "Eliminar">Eliminar</button></div>
-                        </form>
+                        <div class="editarEncabezado">
+                            <label for="">Editar encabezado</label>
+                            <textarea name="encabezado" id="" cols="100%" rows="10"></textarea>
                         </div>
-                    </div>
+                        <div class="editarContenido">
+                            <label for="">Editar contenido</label>
+                            <textarea name="contenido" id="" cols="100%" rows="10"></textarea>
+                        </div>
+                        <div class="botones">
+                            <div style="text-align: center;"><button class="button" type="submit" name="Guardar" value="Guardar">Guardar</button>
+                                <button class="button" type="submit", name = "Cancelar", value="Cancelar">Cancelar</button></div>
+                        </div>
+                    </form>
                 </div>
-            </article>
-            {% endfor %}
-        </div>
-    </section>
-
-
+            </div>
+        </section>
+    </div>
 
     <div class="footer">
         <div class="container">
