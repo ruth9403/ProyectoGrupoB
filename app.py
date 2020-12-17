@@ -278,7 +278,7 @@ def MisBlogs():
 
         if btnEliminar == "" or btnEliminar == None:
             blogId = btnEditar.split(",")[1]
-            return redirect("/Editar", blogId = blogId)
+            return redirect("/Editar")
 
         else:
             
@@ -289,10 +289,9 @@ def MisBlogs():
                     cur = con.cursor() #Manipula la conexión a la bd
                     cur.execute("DELETE FROM publicacion WHERE id_publicacion = ?", blogId)
                     con.commit() #confirma la sentencia
-                    return "Blog Borrado"
+                    return redirect("/MisBlogs")
             except :
                 con.rollback()       
-            
             return redirect("/MisBlogs")
 
 
@@ -365,8 +364,25 @@ def Editar():
 @login_required
 def nuevoBlog():
     if request.method == "GET":
+        
         return render_template("nuevoBlog.html")
     else:
+        btnCancelar = request.form.get("Cancelar")
+        btnGuardar = request.form.get("Guardar")
+
+        if btnGuardar == "" or btnGuardar == None:
+
+            return redirect("/MisBlogs")
+        else:
+            # Obtengo todos los campos necesarios para insertar un nuevo blog
+            titulo = request.form.get("titulo")
+            encabezado = request.form.get("encabezado")
+            contenido = request.form.get("contenido")
+
+            db.execute("INSERT INTO publicacion (titulo, cuerpo, title, year, kind, genres, rating, casting, directors, url_image) VALUES (:user_id, \
+                :movie_id, :title, :year, :kind, :genres, :rating, :casting, :directors, :url_image)", user_id = session["user_id"], movie_id = movie_id, title = movie_title, year= movie_year, kind= movie_kind, \
+                    genres= movie_genre, rating= movie_rating, casting= "", directors= movie_director, url_image = movie_cover)
+
         return render_template("nuevoBlog.html")
 
 # Cerrar sesión
