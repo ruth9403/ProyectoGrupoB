@@ -24,9 +24,14 @@
         </nav>
         <div style="text-align: center; width: 300px;"><button class="button"><a href="/logout">Cerrar Sesión</a></button></div>
     </header>
-
+    <div>
+        <form action="/MisBlogs" method="POST">
+            <div style="text-align: center;"><button type="submit" class="button" value = "agregar" name="agregar">Crear un nuevo blog</button></div>
+        </form>
+    </div>
     <section class="box">
         <div>
+            {% for blog in userBlogs %}
             <article class="articulo">
                 <div class="container">
                     <div class="row" id="blog">
@@ -34,69 +39,32 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <t2 class="titulo_blog"><a href="/blog">Blog 1</a></t2>
+                                        <t2 class="titulo_blog"><a href="/blog">{{ blog["titulo"] }}</a></t2>
                                     </td>
                                 </tr class="titulo">
                                 <tr>
                                     <td>
-                                        <t3 class="fechas">30/11/2020</t3>
+                                        <t3 class="fechas">{{ blog["fecha_publicacion"] }}</t3>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p>Como su nombre indica, los textos argumentativos son los que presentan una serie de argumentos con el objetivo principal de transmitir un punto de vista y convencer al lector de su validez. Como su nombre indica,
-                                            los textos argumentativos son los que presentan una serie de argumentos con el objetivo principal de transmitir un punto de vista y convencer al</p>
+                                        <p>{{ blog["cuerpo"] }}</p>
                                     </td>
 
                                 </tr>
                             </table>
                         </div>
                         <div class="col-4 botones_articulo">
-                            <!-- <input type="submit" value="Editar"><br><br>
-                <input type="submit" value="Eliminar"> -->
-                          <form action="/MisBlogs" method="POST">
-                            <div style="text-align: center;"><button type="submit" class="button" value = "Editar" name="Editar">Editar</button></div>
-                            <div style="text-align: center;"><button type="submit" class="button" value = "Eliminar" name = "Eliminar">Eliminar</button></div>
-                          </form>
-                          </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="articulo">
-                <div class="container">
-                    <div class="row" id="blog">
-                        <div class="col-8 ">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <t2 class="titulo_blog"><a href="/blog">Blog 2</a></t2>
-                                    </td>
-                                </tr class="titulo">
-                                <tr>
-                                    <td>
-                                        <t3 class="fechas">30/11/2020</t3>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>Como su nombre indica, los textos argumentativos son los que presentan una serie de argumentos con el objetivo principal de transmitir un punto de vista y convencer al lector de su validez. Como su nombre indica,
-                                            los textos argumentativos son los que presentan una serie de argumentos con el objetivo principal de transmitir un punto de vista y convencer al</p>
-                                    </td>
-
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-4 botones_articulo">
-                            <!-- <input type="submit" value="Editar"><br><br>
-                <input type="submit" value="Eliminar"> -->
-                            <div style="text-align: center;"><button type="submit" class="button">Editar</button></div>
-                            <div style="text-align: center;"><button type="submit" class="button">Eliminar</button></div>
+                        <form action="/MisBlogs" method="POST">
+                            <div style="text-align: center;"><button type="submit" class="button" value = "Editar,{{ blog['id_publicacion'] }}" name="Editar">Editar</button></div>
+                            <div style="text-align: center;"><button type="submit" class="button" value = "Eliminar,{{ blog['id_publicacion'] }}" name = "Eliminar">Eliminar</button></div>
+                        </form>
                         </div>
                     </div>
                 </div>
             </article>
-
+            {% endfor %}
         </div>
     </section>
 

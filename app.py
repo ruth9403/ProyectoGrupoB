@@ -242,29 +242,34 @@ def MisBlogs():
 
         userBlogs = db.execute("SELECT * FROM publicacion WHERE id_usuarioPub = :idUser",
                           idUser=usuario)
+
+        print(userBlogs)
         
         if len(userBlogs) == 0:
             mensaje = "No tienes ningún blog asociado a tu cuenta"
+            return render_template("MisBlogs.html", userBlogs = userBlogs)
 
         else:
-            return render_template("MisBlogs.html")
-
-        print(userBlogs)
-
-        return render_template("MisBlogs.html")
+            return render_template("MisBlogs.html", userBlogs = userBlogs)
     
     else:
 
         # Pregunto qué botón hizo el request, eliminar o editar
         btnEditar = request.form.get("Editar")
         btnEliminar = request.form.get("Eliminar")
-        
-        if btnEditar == "Editar":
-            return redirect("/Editar")
 
-        if btnEliminar == "Eliminar":
-            # Hacer delete a la base de datos
+        if btnEliminar == "" or btnEliminar == None:
+            blogId = btnEditar.split(",")[1]
+            return redirect("/Editar", blogId = blogId)
+
+        else:
+            print("ID DEL BLOG:")
+            blogId = btnEliminar.split(",")[1]
+            
+            
+
             return redirect("/MisBlogs")
+
 
 
 # Página para mostrar el detalle de un blog, los titulos son un anchor
