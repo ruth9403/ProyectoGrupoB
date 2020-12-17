@@ -34,7 +34,7 @@
 
     <div id="body_pub">
         <section class="box-publication">
-            <form action="/blog" method="POST">
+            <form action="/blog/{{ blog['id_publicacion'] }}" method="POST">
                 <div class="grid-container-pub">
                     <div class="Uno">
                         <h1 name = "titulo" class="titulo">{{ blog["titulo"] }}</h1>
@@ -45,9 +45,9 @@
                         <h4 class="subtitulos">Comentarios</h4>
                         {% for comentario in comentarios %}
                         <div>
-                            <p class="nombre_usuario">{{ comentario[""] }}</p>
+                            <p class="nombre_usuario">{{ comentario["usuario"] }}</p>
                             <p class="fecha">{{ comentario["fecha_publicacionCom"] }}</p>
-                            <p class="parrafo">{{ comentario["cuerpo_comentario"] }}</p>
+                            <p class="parrafo">{{ comentario["cuerpo_cometario"] }}</p>
                         </div>
                         {% endfor %}
                         <h4 class="subtitulos">Agregar comentario</h4>

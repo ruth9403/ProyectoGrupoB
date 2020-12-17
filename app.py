@@ -320,52 +320,46 @@ def header():
         blog = {"titulo": "abc", "cuerpo": "cuerpo axc"}
         render_template("detalleBlog.html", blog = blog)
     else:
+        return render_template("detalleBlog.html")
 
+@app.route('/blog/<int:id>', methods = ["GET", "POST"] )
+@login_required
+def DetalleBlog(id):
+
+    if request.method == "GET":
+        blog = db.execute("SELECT * FROM publicacion WHERE id_publicacion = :id_publicacionCom", id_publicacionCom=id)
+        blog = blog[0]
+
+        comentarios = db.execute("SELECT * FROM comentario WHERE id_publicacionCom = :id", id=id)
+
+
+        for comentario in comentarios: 
+
+            comentario["usuario"] = db.execute("SELECT user_name FROM usuario WHERE id_usuario = :id_user", id_user=comentario["id_usuarioCom"])[0]["user_name"]
+
+        
+        return render_template("detalleBlog.html", blog = blog, comentarios = comentarios)
+
+    else:
         comentarioN = request.form.get("nuevoComentario")
         usuario = session["user_id"]
-        id_publicacionCom = request.form.get("titulo")
+        id_publicacionCom = id
         today = date.today()
         dt_string = today.strftime("%Y/%m/%d")
         try:
             with sqlite3.connect("BLOG_B.db") as con:
                 cur = con.cursor() #Manipula la conexión a la bd
-                cur.execute("INSERT INTO comentario (id_usuarioCom, fecha_publicacionCom, cuerpo_comentario, id_publicacionCom) VALUES (?,?,?,?)",
+                cur.execute("INSERT INTO comentario (id_usuarioCom, fecha_publicacionCom, cuerpo_cometario, id_publicacionCom) VALUES (?,?,?,?)",
                             (usuario, dt_string, comentarioN, id_publicacionCom))
                 con.commit() #confirma la sentencia
-                return "Comentario publicado"
+                return redirect('/blog/' + str(id))
         except :
             con.rollback()       
 
-
-        return render_template("detalleBlog.html")
-
-@app.route('/blog/<int:id>')
-def DetalleBlog(id):
-
-    blog = db.execute("SELECT * FROM publicacion WHERE id_publicacion = :id_publicacionCom", id_publicacionCom=id)
-    blog = blog[0]
-
-    # Trae
-    #comentarios = SELECT * FROM comentarios WHERE id publicacion = blog (el resultado es una lista)
-        
-
-    # [{'id_comentario': valor, 'id_UsuarioCom': 1...},{}]
-    # comentarios_2 = [] diccionario vacio
-    
-    # for comentario in comentarios
-
-    # obtener el id del usuario
-    # nombre = hacer query en usuarios con el id para obtener nombre
-    # comentario["nombre"] = nombre
-    # comentarios_2.append(comentario)
+        return redirect('/blog/' + str(id))
 
 
-    # Agregar comentarios = comentarios_2}
 
-
-    return render_template("detalleBlog.html", blog = blog)
-    
-    
 
 @app.route("/blog_sinSesion")
 def blog_sinsesion():
