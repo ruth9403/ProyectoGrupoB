@@ -374,6 +374,8 @@ def Editar():
         
         if btnGuardar == "Guardar":
             # Hacer update en la base de datos ## debe ser la misma de crear blog
+
+            ## AQUI FALTA OBTENER EL ID DEL BOTON
             editblog = session["id_publicacion"]
             try:
                 with sqlite3.connect("BLOG_B.db") as con:
