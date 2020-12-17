@@ -37,27 +37,20 @@
             <form action="/blog" method="POST">
                 <div class="grid-container-pub">
                     <div class="Uno">
-                        <h1 class="titulo">Risus quis varius quam quisque id. Auctor elit sed vulputate mi sit amet mauris.</h1>
-                        <h5 class="encabezado">Aliquam etiam erat velit scelerisque in dictum.</h5>
-                        <p class="parrafo">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Turpis egestas sed tempus urna et pharetra pharetra massa massa. Commodo ullamcorper a lacus vestibulum sed
-                            arcu. Volutpat blandit aliquam etiam erat. Euismod quis viverra nibh cras pulvinar. Tincidunt augue interdum velit euismod in. Et odio pellentesque diam volutpat commodo sed egestas. Ac tortor dignissim convallis aenean et tortor
-                            at risus. Mollis nunc sed id semper risus. Etiam tempor orci eu lobortis elementum. Consequat semper viverra nam libero. Feugiat in ante metus dictum at tempor commodo. Pretium lectus quam id leo in vitae turpis massa. Curabitur
-                            vitae nunc sed velit dignissim. Lectus quam id leo in vitae turpis massa.</p>
-                        <p class="parrafo">Risus quis varius quam quisque id. Auctor elit sed vulputate mi sit amet mauris. Odio morbi quis commodo odio aenean. Velit euismod in pellentesque massa placerat. Purus sit amet volutpat consequat mauris. Mi in nulla posuere sollicitudin
-                            aliquam ultrices sagittis. Dis parturient montes nascetur ridiculus mus mauris vitae ultricies leo. Platea dictumst quisque sagittis purus sit. Amet nisl purus in mollis nunc sed id. Eu ultrices vitae auctor eu. Amet est placerat
-                            in egestas erat imperdiet. Lobortis mattis aliquam faucibus purus in massa tempor. Urna neque viverra justo nec ultrices dui sapien eget mi. Vel pharetra vel turpis nunc eget lorem dolor sed viverra. Sit amet consectetur adipiscing
-                            elit ut aliquam. Arcu dui vivamus arcu felis bibendum ut. Ultricies mi quis hendrerit dolor magna eget est lorem ipsum. Suspendisse potenti nullam ac tortor vitae. Netus et malesuada fames ac turpis egestas integer eget.</p>
-                        <p class="parrafo">Faucibus purus in massa tempor nec feugiat nisl pretium fusce. Egestas diam in arcu cursus euismod quis viverra nibh cras. Donec ultrices tincidunt arcu non sodales neque sodales ut. Lorem mollis aliquam ut porttitor leo a diam sollicitudin
-                            tempor. Id volutpat lacus laoreet non curabitur gravida arcu. Elementum nibh tellus molestie nunc non blandit massa enim nec. Viverra orci sagittis eu volutpat odio facilisis mauris sit amet. Egestas diam in arcu cursus. Ullamcorper
-                            eget nulla facilisi etiam. Aliquam etiam erat velit scelerisque in dictum. At auctor urna nunc id cursus metus aliquam eleifend. Elit ullamcorper dignissim cras tincidunt lobortis. Pellentesque nec nam aliquam sem et tortor consequat.
-                            Dolor morbi non arcu risus quis varius quam quisque. Non blandit massa enim nec. Aliquet sagittis id consectetur purus. Ac tortor dignissim convallis aenean et tortor at. Varius quam quisque id diam.</p>
+                        <h1 name = "titulo" class="titulo">{{ blog["titulo"] }}</h1>
+                        <h5 class="encabezado"></h5>
+                        <p class="parrafo">{{ blog["cuerpo"]}}</p>
                     </div>
                     <div class="Dos">
                         <h4 class="subtitulos">Comentarios</h4>
-                        <p class="nombre_usuario">Usuario</p>
-                        <p class="fecha">Fecha</p>
-                        <p class="parrafo">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Turpis egestas sed tempus urna et pharetra pharetra massa massa. Commodo ullamcorper a lacus vestibulum sed
-                            arcu. Volutpat blandit aliquam etiam erat. Euismod quis viverra nibh cras pulvinar.</p>
+                        {% for comentario in comentarios %}
+                        <div>
+                            <p class="nombre_usuario">{{ comentario["nombre"] }}</p>
+                            <p class="fecha">Fecha</p>
+                            <p class="parrafo">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Turpis egestas sed tempus urna et pharetra pharetra massa massa. Commodo ullamcorper a lacus vestibulum sed
+                                arcu. Volutpat blandit aliquam etiam erat. Euismod quis viverra nibh cras pulvinar.</p>
+                        </div>
+                        {% endfor %}
                         <h4 class="subtitulos">Agregar comentario</h4>
                         <textarea name="nuevoComentario" id="" cols="40" rows="10"></textarea>
                         <div style="text-align: center;"><button type="submit" class="button">Enviar comentario</button></div>

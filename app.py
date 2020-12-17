@@ -304,12 +304,13 @@ def MisBlogs():
 @login_required
 def header():
     if request.method == "GET":
-        return render_template("detalleBlog.html")
+        blog = {"titulo": "abc", "cuerpo": "cuerpo axc"}
+        render_template("detalleBlog.html", blog = blog)
     else:
 
         comentarioN = request.form.get("nuevoComentario")
         usuario = session["user_id"]
-        id_publicacionCom = 1
+        id_publicacionCom = request.form.get("titulo")
         today = date.today()
         dt_string = today.strftime("%Y/%m/%d")
         try:
@@ -324,6 +325,31 @@ def header():
 
 
         return render_template("detalleBlog.html")
+
+@app.route('/blog/<int:id>')
+def DetalleBlog(id):
+
+    blog = db.execute("SELECT * FROM publicacion WHERE id_publicacion = :id_publicacionCom", id_publicacionCom=id)
+    blog = blog[0]
+
+    # Trae
+    #comentarios = SELECT * FROM comentarios WHERE id publicacion = blog (el resultado es una lista)
+    # [{'id_comentario': valor, 'id_UsuarioCom': 1...},{}]
+    # comentarios_2 = [] diccionario vacio
+
+    # for comentario in comentarios
+
+    # obtener el id del usuario
+    # nombre = hacer query en usuarios con el id para obtener nombre
+    # comentario["nombre"] = nombre
+    # comentarios_2.append(comentario)
+
+
+    # Agregar comentarios = comentarios_2
+
+    return render_template("detalleBlog.html", blog = blog)
+    
+    
 
 @app.route("/blog_sinSesion")
 def blog_sinsesion():
