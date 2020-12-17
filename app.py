@@ -34,7 +34,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = 'misionticgrupob@gmail.com'
 app.config['MAIL_USE_TLS'] = True                                    
-app.config['MAIL_PASSWORD'] = 'Clavefalsa123' #-------------*R
+app.config['MAIL_PASSWORD'] = 'Clavefalsa1234' #-------------*R
 Session(app)
 mail = Mail(app)#-------------*R
 
@@ -458,13 +458,16 @@ def confirmar(usuario):
 
 def enviarMail(correo, url):
     msg = Message("Activa tu cuenta!",
-                  sender="misionticgrupob@gmail.com",
+                  sender='misionticgrupob@gmail.com',
                   recipients=[correo])
-    msg.body = f'Para activar tu cuenta por favor sigue el siguiente link {url}'
+    #msg.body = f'Para activar tu cuenta por favor sigue el siguiente link {url}'
+    msg.html = render_template("mail_newUSer.html", visible = True, mensaje = url)
     mail.send(msg)
+    return msg.html
 
 def crearURL(token,usuario):
     url = f'http://127.0.0.1:8000/confirmacion/{usuario}?token={token}'
+    print('si cree la URL')
     return url
 
 def guadarTokenBD(token,correo, usuario):
@@ -476,7 +479,13 @@ def guadarTokenBD(token,correo, usuario):
             con.commit() #confirma la sentencia
     except :
         con.rollback()
+
+
+@app.route("/testEmail")
+def testEmail():
+    return enviarMail('ruthy9403@gmail.com', crearURL('QYcIBzoUhrgiicMP7EuXOYF5I68ooLPP0rJEfBVE6hI','alcohol'))
 #-------------*R
+
 
 if __name__ == "__main__":
     app.run(debug = True, port=8000)
