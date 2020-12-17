@@ -36,7 +36,7 @@
         <section class="box-publication">
             <div class="grid-container-pub">
                 <div class="grid-container-editPub">
-                    <form action="/Editar", method="POST">
+                    <form action="/nuevoBlog", method="POST">
                         <div class="editarTitulo">
                             <h5>Editar publicación</h5>
                             <label for="">Editar titulo</label>
@@ -49,6 +49,10 @@
                         <div class="editarContenido">
                             <label for="">Editar contenido</label>
                             <textarea name="contenido" id="" cols="100%" rows="10"></textarea>
+                        </div>
+                        <div>
+                            <label for="">Público</label>
+                            <input type="checkbox" name="publico" id="">
                         </div>
                         <div class="botones">
                             <div style="text-align: center;"><button class="button" type="submit" name="Guardar" value="Guardar">Guardar</button>
