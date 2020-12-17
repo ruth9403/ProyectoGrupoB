@@ -7,7 +7,9 @@ from cs50 import SQL
 from datetime import date
 import sqlite3
 from datetime import date
-
+from flask_mail import Mail#-------------*R
+from flask_mail import Message#-------------*R
+import secrets#-------------*R
 
 app = Flask(__name__)
 
@@ -26,7 +28,15 @@ def after_request(response):
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+
+#Configurando servidor SMTP#-------------*R
+app.config['MAIL_SERVER'] = 'smtp.gmail.com' 
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'misionticgrupob@gmail.com'
+app.config['MAIL_USE_TLS'] = True                                    
+app.config['MAIL_PASSWORD'] = 'Clavefalsa123' #-------------*R
 Session(app)
+mail = Mail(app)#-------------*R
 
 # Configurar librería CS50 para trabajar con la base de datos
 db = SQL("sqlite:///BLOG_B.db")
@@ -130,6 +140,9 @@ def registro():
                 cur.execute("INSERT INTO usuario (nombre, apellido, user_name, contrasena, correo, fecha_ingreso) VALUES (?,?,?,?,?,?)",
                             (username, username, username, hash_pass, correo, dt_string))
                 con.commit() #confirma la sentencia
+                token = secrets.token_urlsafe()#-------------*R
+                guadarTokenBD(token, correo, username)
+                enviarMail(correo, crearURL(token,username))#-------------*R
                 return redirect("/")
         except :
             con.rollback()
@@ -435,6 +448,41 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")
+
+#-------------*R
+#http://127.0.0.1:8000/confirmacion/jaaviles@uninorte.edu.co?token=TGWWVTJUEVDAcddIPzHkUQgA5u1t_NUYqiL5WKayXNc
+@app.route("/confirmacion/<string:usuario>")
+def confirmar(usuario):
+    try:
+        with sqlite3.connect("BLOG_B.db") as con:
+            cur = con.cursor() #Manipula la conexión a la bd
+            cur.execute("UPDATE usuario SET estado_activacion = ? WHERE user_name=?", (True, usuario))
+            con.commit() #confirma la sentencia
+    except :
+        con.rollback()
+    return render_template("cuentaActivada.html")
+
+def enviarMail(correo, url):
+    msg = Message("Activa tu cuenta!",
+                  sender="misionticgrupob@gmail.com",
+                  recipients=[correo])
+    msg.body = f'Para activar tu cuenta por favor sigue el siguiente link {url}'
+    mail.send(msg)
+
+def crearURL(token,usuario):
+    url = f'http://127.0.0.1:8000/confirmacion/{usuario}?token={token}'
+    return url
+
+def guadarTokenBD(token,correo, usuario):
+    try:
+        with sqlite3.connect("BLOG_B.db") as con:
+            cur = con.cursor() #Manipula la conexión a la bd
+            cur.execute("INSERT INTO token (token, correo_usuario, usuario) VALUES (?,?,?)",
+                        (token, correo, usuario))
+            con.commit() #confirma la sentencia
+    except :
+        con.rollback()
+#-------------*R
 
 if __name__ == "__main__":
     app.run(debug = True, port=8000)
