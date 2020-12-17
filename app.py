@@ -334,9 +334,11 @@ def DetalleBlog(id):
 
     # Trae
     #comentarios = SELECT * FROM comentarios WHERE id publicacion = blog (el resultado es una lista)
+        
+
     # [{'id_comentario': valor, 'id_UsuarioCom': 1...},{}]
     # comentarios_2 = [] diccionario vacio
-
+    
     # for comentario in comentarios
 
     # obtener el id del usuario
@@ -345,7 +347,8 @@ def DetalleBlog(id):
     # comentarios_2.append(comentario)
 
 
-    # Agregar comentarios = comentarios_2
+    # Agregar comentarios = comentarios_2}
+
 
     return render_template("detalleBlog.html", blog = blog)
     
