@@ -164,22 +164,32 @@ def Recuperar():
         if not validCorreo:
             return render_template("recuperacion1.html", visible = True, mensaje = mensaje)
 
-        return redirect("/verificacion")
-
-        #Se revisa que exista el correo en la base de datos
+        #Se revisa que exista el correo en la base de datos#-------------*R
         try:
             with sqlite3.connect("BLOG_B.db") as con:
                 cur = con.cursor() #Manipula la conexión a la bd
-                cur.execute("SELECT * FROM usuario WHERE correo = ?", correo)
-                con.commit() #confirma la sentencia
+                print('Entreeeee')
+                cur.execute("SELECT * FROM usuario WHERE correo=?", [correo])
+                print('buscoooo')
+                #con.commit() #confirma la sentencia
                 row = cur.fetchone()
+                print('traje esto', row)
                 if row is None:
                     flash("Correo no se encuentra registrado en la BD")
                     print("Correo no se encuentra registrado en la BD")
-                return render_template("recuperacion1.html", visible = True, mensaje= mensaje)
+                    return render_template("recuperacion1.html", visible = True, mensaje= mensaje)
+                else:
+                    print('ENTRE AL ELSE')
+                    cur.execute("SELECT * FROM token WHERE correo_usuario=?", [correo])
+                    row2 = cur.fetchone()
+                    print('traje esto otro de token', row2)
+                    print(row2[1])
+                    enviarMailRecup(correo, crearURLRecup(row2[1],row2[3]))
+                    #enviarMail(correo, crearURL(token,username))
         except :
             con.rollback()
-    return redirect("/")
+        return redirect("/verificacion")
+    return redirect("/")#-------------*R
 
 # Ruta para la segunda página de recuperación de contraseña (donde se avisa al usuario que se ha enviado un correo)
 @app.route("/verificacion", methods = ["GET", "POST"])
@@ -190,11 +200,11 @@ def verificacion():
 
 
 # Ruta para la tercera página de recuperación de contraseña (donde se hace cambio de contraseña)
-@app.route("/Recuperar2", methods = ["GET", "POST"])
-def Recuperar2():
+@app.route("/Recuperar2/<string:usuario>", methods = ["GET", "POST"])#-------------*R
+def Recuperar2(usuario):
 
     if request.method =="GET":
-        return render_template("recuperacion2.html", visible = False, mensaje = "")
+        return render_template("recuperacion2.html", visible = False, mensaje = "", usuario = usuario)
     
     else:
 
@@ -217,9 +227,13 @@ def Recuperar2():
         if not validPass:
             # Debe ir un update a la base de datos
             return render_template("recuperacion2.html", visible = True, mensaje = mensaje)
-            
+        
+        hash_pass = generate_password_hash(newpass)
+        db.execute('UPDATE usuario SET contrasena=? WHERE nombre=?', hash_pass, usuario)
+
+
         # Si las contraseñas coinciden redirijo al usuario a la pagina de inicio para que se loguee
-        return redirect("/")
+        return redirect("/")#-------------*R
 
 
 # Resultados de búsqueda de blogs cuando no se ha iniciado sesión
@@ -479,6 +493,22 @@ def guadarTokenBD(token,correo, usuario):
             con.commit() #confirma la sentencia
     except :
         con.rollback()
+
+def enviarMailRecup(correo, url):
+    msg = Message("Recupera tu cuenta!",
+                  sender='misionticgrupob@gmail.com',
+                  recipients=[correo])
+    #msg.body = f'Para activar tu cuenta por favor sigue el siguiente link {url}'
+    msg.html = render_template("mail_recuperaCont.html", visible = True, mensaje = url)
+    mail.send(msg)
+    return msg.html
+
+
+def crearURLRecup(token,usuario):
+    url = f'http://127.0.0.1:8000/Recuperar2/{usuario}'
+    print('si cree la URL')
+    return url
+
 
 
 @app.route("/testEmail")
