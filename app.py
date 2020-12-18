@@ -53,20 +53,25 @@ def index():
 
     else:
         
-        textBuscar = request.form.get("barra_busqueda")
+        search = request.form.get("barra_busqueda")
         username = request.form.get("usuario")
         password = request.form.get("pass")
+        boton = request.form.get("boton")
 
-        # Reconocemos que el usuario quiere hacer ubna búsqueda porque
-        # el cuadro de búsqueda tiene al menos un caracter
-        # mientras que no llega nada por parte del input usuario y el 
-        # de contraseña
-        if textBuscar != "" and (username == None or username == "") and (password == None or password == ""):
+        # Pregunto si el botón que hace el submit es el de buscar, sino lo hizo el de iniciar sesión
+        if boton == "Buscar":
 
             # Hacer select de la base de datos segun lo que esté en la barra de busqueda
             # pasar un diccionario con los resultados
+            # Valor del campo 
 
-            return redirect("/resultados_sinsesion")
+            blogs = db.execute(f"SELECT * FROM publicacion WHERE es_publico = 1 and (titulo LIKE '%%{search}%%' or cuerpo LIKE '%%{search}%%')")
+            cant = len(blogs)
+
+            for blog in blogs:
+                blog["usuario"] = db.execute("SELECT nombre FROM usuario WHERE id_usuario = :idUser",idUser= blog["id_usuarioPub"])[0]["nombre"]
+
+            return render_template("resultados_sinsesion.html", blogs = blogs, cant = cant)
 
         # Las validaciones que se hacen para iniciar sesión son:
 
@@ -283,8 +288,6 @@ def MisBlogs():
 
         userBlogs = db.execute("SELECT * FROM publicacion WHERE id_usuarioPub = :idUser",
                           idUser=usuario)
-
-        print(userBlogs)
         
         if len(userBlogs) == 0:
             mensaje = "No tienes ningún blog asociado a tu cuenta"
@@ -305,7 +308,7 @@ def MisBlogs():
 
         if btnEliminar == "" or btnEliminar == None:
             blogId = btnEditar.split(",")[1]
-            return redirect("/Editar")
+            return redirect(f"/Editar_b/{blogId}")
 
         else:
             
@@ -373,11 +376,46 @@ def DetalleBlog(id):
         return redirect('/blog/' + str(id))
 
 
+@app.route('/blog_sinsesion/<int:id>', methods = ["GET", "POST"])
+def DetalleBlog_sinsesion(id):
+
+        if request.method == "GET":
+
+            blog = db.execute("SELECT * FROM publicacion WHERE id_publicacion = :id_publicacionCom", id_publicacionCom=id)
+            blog = blog[0]
+
+            return render_template("detalleBlog_SinSesion.html", blog = blog)
 
 
-@app.route("/blog_sinSesion")
-def blog_sinsesion():
-    return render_template("detalleBlog_SinSesion.html")
+@app.route("/Editar_b/<int:id>", methods = ["GET", "POST"])
+@login_required
+def Editar_b(id):
+
+    if request.method == "GET":
+        blog = db.execute("SELECT * FROM publicacion WHERE id_publicacion = :id_publicacionCom", id_publicacionCom=id)[0]
+
+        return render_template("edicionBlog.html", blog = blog)
+
+    else:
+        # Pregunto si el botón de request es el de guardar o el de cancelar
+        btnGuardar = request.form.get("Guardar")
+        btnCancelar = request.form.get("Cancelar")
+
+        if btnCancelar == "Cancelar":
+            return redirect("/MisBlogs")
+
+        if btnGuardar == "Guardar":
+            # Hacer update en la base de datos ## debe ser la misma de crear blog
+            titulo = request.form.get("titulo")
+            contenido = request.form.get("contenido")
+            today = date.today()
+            fecha = today.strftime("%Y/%m/%d")
+            publico = 1 if request.form.get("publico") == 'on' else 0
+
+            db.execute("UPDATE publicacion SET titulo = ?, cuerpo = ?, es_publico = ?, fecha_publicacion = ?  WHERE id_publicacion = ?", titulo, contenido, publico, fecha, id)
+            
+            return redirect("/MisBlogs")
+
 
 # Página para edición de un blog particular
 @app.route("/Editar", methods = ["GET", "POST"])
