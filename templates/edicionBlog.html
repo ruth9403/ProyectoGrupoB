@@ -36,23 +36,27 @@
         <section class="box-publication">
             <div class="grid-container-pub">
                 <div class="grid-container-editPub">
-                    <form action="/Editar", method="POST">
+                    <form action="/Editar_b/{{ blog['id_publicacion'] }}", method="POST">
                         <div class="editarTitulo">
                             <h5>Editar publicación</h5>
                             <label for="">Editar titulo</label>
-                            <textarea name="" id="" cols="100%" rows="2"></textarea>
+                            <textarea name="titulo" id="" cols="100%" rows="2">{{ blog["titulo"] }}</textarea>
                         </div>
                         <div class="editarEncabezado">
                             <label for="">Editar encabezado</label>
-                            <textarea name="" id="" cols="100%" rows="10"></textarea>
+                            <textarea name="encabezado" id="" cols="100%" rows="10">{{ blog["fecha_publicacion"] }}</textarea>
                         </div>
                         <div class="editarContenido">
                             <label for="">Editar contenido</label>
-                            <textarea name="" id="" cols="100%" rows="10"></textarea>
+                            <textarea name="contenido" id="" cols="100%" rows="10">{{ blog["cuerpo"] }}</textarea>
                         </div>
                         <div>
                             <label for="">Público</label>
-                            <input type="checkbox" name="publico" id="">
+                            {% if blog["es_publico"] == 1 %}
+                                <input type="checkbox" name="publico" id="" checked>
+                                {% else %}
+                                <input type="checkbox" name="publico" id="">
+                            {% endif %}
                         </div>
                         <div class="botones">
                             <div style="text-align: center;"><button class="button" type="submit" name="Guardar" value="Guardar">Guardar</button>
