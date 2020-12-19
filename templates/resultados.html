@@ -30,31 +30,21 @@
     <main class="registro-main resultados">
         <section class="container-resultados">
             <section class="container-cards">
-                <h2 class="resultados-title">Resultados encontrados: X</h2>
+                <h2 class="resultados-title">Resultados encontrados: {{ cant }}</h2>
+                
+                {% for blog in blogs %}
                 <article class="resultados-card">
                     <div class="resultados-card-div">
-                        <h3 class="resultados-card-title"><a href="/blog">Blog x</a></h3>
+                        <h3 class="resultados-card-title"><a href="/blog_consesion/{{ blog['id_publicacion'] }}">{{ blog["titulo"] }}</a></h3>
                         <hr class="resultados-card-hr">
                         <p class="resultados-card-time">
-                            <time>02/12/2020</time> <span class="resultados-card-user"> - Usuario</span>
+                            <time>{{ blog["fecha_publicacion"] }}</time> <span class="resultados-card-user"> - {{ blog["usuario"] }}</span>
                         </p>
                     </div>
-                    <p class="resultados-card-p"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet neque aspernatur deserunt saepe excepturi iste? Ex voluptates, vel quae voluptatum, nulla deserunt facilis vero eos corrupti perferendis id rerum aliquid.
-                    </p>
+                    <p class="resultados-card-p">{{ blog["cuerpo"] }}</p>
 
                 </article>
-                <article class="resultados-card">
-                    <div class="resultados-card-div">
-                        <h3 class="resultados-card-title"><a href="/blog">Blog X</a></h3>
-                        <hr class="resultados-card-hr">
-                        <p class="resultados-card-time">
-                            <time>02/12/2020</time> <span class="resultados-card-user"> - Usuario</span>
-                        </p>
-                    </div>
-                    <p class="resultados-card-p"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet neque aspernatur deserunt saepe excepturi iste? Ex voluptates, vel quae voluptatum, nulla deserunt facilis vero eos corrupti perferendis id rerum aliquid.
-                    </p>
-
-                </article>
+                {% endfor %}
             </section>
             <aside class="aside">
                 <img class="aside-img" src="./../static/pexels-photo-2740954.jpeg" alt="you got this">

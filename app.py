@@ -270,10 +270,13 @@ def buscar():
             mensaje = "Ingresar al menos una palabra clave para la búsqueda"
             return render_template("paginaBusqueda copy.html", visible = True, mensaje = mensaje)
 
-        # Aquí se haría un select condicionado a la base de datos para traer coincidencias 
-        # y se enviaría a la página como diccionario para mostrar los resultados
+            blogs = db.execute(f"SELECT * FROM publicacion WHERE (titulo LIKE '%%{search}%%' or cuerpo LIKE '%%{search}%%')")
+            cant = len(blogs)
 
-        return redirect("/resultados")
+            for blog in blogs:
+            blog["usuario"] = db.execute("SELECT nombre FROM usuario WHERE id_usuario = :idUser",idUser= blog["id_usuarioPub"])[0]["nombre"]
+
+        return render_template("resultados.html", blogs = blogs, cant = cant)
 
 
 # Página de los blogs del usuario logueado
@@ -385,6 +388,15 @@ def DetalleBlog_sinsesion(id):
             blog = blog[0]
 
             return render_template("detalleBlog_SinSesion.html", blog = blog)
+
+@app.route('/blog_consesion/<int:id>', methods = ["GET", "POST"])
+@login_required
+def DetalleBlog_consesion(id):
+
+        blog = db.execute("SELECT * FROM publicacion WHERE id_publicacion = :id_publicacionCom", id_publicacionCom=id)
+        blog = blog[0]
+
+        return render_template("detalleBlog.html", blog = blog)
 
 
 @app.route("/Editar_b/<int:id>", methods = ["GET", "POST"])
