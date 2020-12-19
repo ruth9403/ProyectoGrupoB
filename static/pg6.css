@@ -19,7 +19,7 @@ html {
 
 .whitespace {
     grid-area: whitespace;
-}
+} 
 
 .caption {
     position: absolute;
