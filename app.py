@@ -34,7 +34,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = 'misionticgrupob@gmail.com'
 app.config['MAIL_USE_TLS'] = True                                    
-app.config['MAIL_PASSWORD'] = 'Clavefalsa123' #-------------*R
+app.config['MAIL_PASSWORD'] = 'Clavefalsa1234' #-------------*R
 Session(app)
 mail = Mail(app)#-------------*R
 
@@ -53,20 +53,25 @@ def index():
 
     else:
         
-        textBuscar = request.form.get("barra_busqueda")
+        search = request.form.get("barra_busqueda")
         username = request.form.get("usuario")
         password = request.form.get("pass")
+        boton = request.form.get("boton")
 
-        # Reconocemos que el usuario quiere hacer ubna búsqueda porque
-        # el cuadro de búsqueda tiene al menos un caracter
-        # mientras que no llega nada por parte del input usuario y el 
-        # de contraseña
-        if textBuscar != "" and (username == None or username == "") and (password == None or password == ""):
+        # Pregunto si el botón que hace el submit es el de buscar, sino lo hizo el de iniciar sesión
+        if boton == "Buscar":
 
             # Hacer select de la base de datos segun lo que esté en la barra de busqueda
             # pasar un diccionario con los resultados
+            # Valor del campo 
 
-            return redirect("/resultados_sinsesion")
+            blogs = db.execute(f"SELECT * FROM publicacion WHERE es_publico = 1 and (titulo LIKE '%%{search}%%' or cuerpo LIKE '%%{search}%%')")
+            cant = len(blogs)
+
+            for blog in blogs:
+                blog["usuario"] = db.execute("SELECT nombre FROM usuario WHERE id_usuario = :idUser",idUser= blog["id_usuarioPub"])[0]["nombre"]
+
+            return render_template("resultados_sinsesion.html", blogs = blogs, cant = cant)
 
         # Las validaciones que se hacen para iniciar sesión son:
 
@@ -164,22 +169,32 @@ def Recuperar():
         if not validCorreo:
             return render_template("recuperacion1.html", visible = True, mensaje = mensaje)
 
-        return redirect("/verificacion")
-
-        #Se revisa que exista el correo en la base de datos
+        #Se revisa que exista el correo en la base de datos#-------------*R
         try:
             with sqlite3.connect("BLOG_B.db") as con:
                 cur = con.cursor() #Manipula la conexión a la bd
-                cur.execute("SELECT * FROM usuario WHERE correo = ?", correo)
-                con.commit() #confirma la sentencia
+                print('Entreeeee')
+                cur.execute("SELECT * FROM usuario WHERE correo=?", [correo])
+                print('buscoooo')
+                #con.commit() #confirma la sentencia
                 row = cur.fetchone()
+                print('traje esto', row)
                 if row is None:
                     flash("Correo no se encuentra registrado en la BD")
                     print("Correo no se encuentra registrado en la BD")
-                return render_template("recuperacion1.html", visible = True, mensaje= mensaje)
+                    return render_template("recuperacion1.html", visible = True, mensaje= mensaje)
+                else:
+                    print('ENTRE AL ELSE')
+                    cur.execute("SELECT * FROM token WHERE correo_usuario=?", [correo])
+                    row2 = cur.fetchone()
+                    print('traje esto otro de token', row2)
+                    print(row2[1])
+                    enviarMailRecup(correo, crearURLRecup(row2[1],row2[3]))
+                    #enviarMail(correo, crearURL(token,username))
         except :
             con.rollback()
-    return redirect("/")
+        return redirect("/verificacion")
+    return redirect("/")#-------------*R
 
 # Ruta para la segunda página de recuperación de contraseña (donde se avisa al usuario que se ha enviado un correo)
 @app.route("/verificacion", methods = ["GET", "POST"])
@@ -190,11 +205,11 @@ def verificacion():
 
 
 # Ruta para la tercera página de recuperación de contraseña (donde se hace cambio de contraseña)
-@app.route("/Recuperar2", methods = ["GET", "POST"])
-def Recuperar2():
+@app.route("/Recuperar2/<string:usuario>", methods = ["GET", "POST"])#-------------*R
+def Recuperar2(usuario):
 
     if request.method =="GET":
-        return render_template("recuperacion2.html", visible = False, mensaje = "")
+        return render_template("recuperacion2.html", visible = False, mensaje = "", usuario = usuario)
     
     else:
 
@@ -217,9 +232,13 @@ def Recuperar2():
         if not validPass:
             # Debe ir un update a la base de datos
             return render_template("recuperacion2.html", visible = True, mensaje = mensaje)
-            
+        
+        hash_pass = generate_password_hash(newpass)
+        db.execute('UPDATE usuario SET contrasena=? WHERE nombre=?', hash_pass, usuario)
+
+
         # Si las contraseñas coinciden redirijo al usuario a la pagina de inicio para que se loguee
-        return redirect("/")
+        return redirect("/")#-------------*R
 
 
 # Resultados de búsqueda de blogs cuando no se ha iniciado sesión
@@ -251,10 +270,13 @@ def buscar():
             mensaje = "Ingresar al menos una palabra clave para la búsqueda"
             return render_template("paginaBusqueda copy.html", visible = True, mensaje = mensaje)
 
-        # Aquí se haría un select condicionado a la base de datos para traer coincidencias 
-        # y se enviaría a la página como diccionario para mostrar los resultados
+            blogs = db.execute(f"SELECT * FROM publicacion WHERE (titulo LIKE '%%{search}%%' or cuerpo LIKE '%%{search}%%')")
+            cant = len(blogs)
 
-        return redirect("/resultados")
+            for blog in blogs:
+            blog["usuario"] = db.execute("SELECT nombre FROM usuario WHERE id_usuario = :idUser",idUser= blog["id_usuarioPub"])[0]["nombre"]
+
+        return render_template("resultados.html", blogs = blogs, cant = cant)
 
 
 # Página de los blogs del usuario logueado
@@ -269,8 +291,6 @@ def MisBlogs():
 
         userBlogs = db.execute("SELECT * FROM publicacion WHERE id_usuarioPub = :idUser",
                           idUser=usuario)
-
-        print(userBlogs)
         
         if len(userBlogs) == 0:
             mensaje = "No tienes ningún blog asociado a tu cuenta"
@@ -291,7 +311,7 @@ def MisBlogs():
 
         if btnEliminar == "" or btnEliminar == None:
             blogId = btnEditar.split(",")[1]
-            return redirect("/Editar")
+            return redirect(f"/Editar_b/{blogId}")
 
         else:
             
@@ -359,11 +379,55 @@ def DetalleBlog(id):
         return redirect('/blog/' + str(id))
 
 
+@app.route('/blog_sinsesion/<int:id>', methods = ["GET", "POST"])
+def DetalleBlog_sinsesion(id):
+
+        if request.method == "GET":
+
+            blog = db.execute("SELECT * FROM publicacion WHERE id_publicacion = :id_publicacionCom", id_publicacionCom=id)
+            blog = blog[0]
+
+            return render_template("detalleBlog_SinSesion.html", blog = blog)
+
+@app.route('/blog_consesion/<int:id>', methods = ["GET", "POST"])
+@login_required
+def DetalleBlog_consesion(id):
+
+        blog = db.execute("SELECT * FROM publicacion WHERE id_publicacion = :id_publicacionCom", id_publicacionCom=id)
+        blog = blog[0]
+
+        return render_template("detalleBlog.html", blog = blog)
 
 
-@app.route("/blog_sinSesion")
-def blog_sinsesion():
-    return render_template("detalleBlog_SinSesion.html")
+@app.route("/Editar_b/<int:id>", methods = ["GET", "POST"])
+@login_required
+def Editar_b(id):
+
+    if request.method == "GET":
+        blog = db.execute("SELECT * FROM publicacion WHERE id_publicacion = :id_publicacionCom", id_publicacionCom=id)[0]
+
+        return render_template("edicionBlog.html", blog = blog)
+
+    else:
+        # Pregunto si el botón de request es el de guardar o el de cancelar
+        btnGuardar = request.form.get("Guardar")
+        btnCancelar = request.form.get("Cancelar")
+
+        if btnCancelar == "Cancelar":
+            return redirect("/MisBlogs")
+
+        if btnGuardar == "Guardar":
+            # Hacer update en la base de datos ## debe ser la misma de crear blog
+            titulo = request.form.get("titulo")
+            contenido = request.form.get("contenido")
+            today = date.today()
+            fecha = today.strftime("%Y/%m/%d")
+            publico = 1 if request.form.get("publico") == 'on' else 0
+
+            db.execute("UPDATE publicacion SET titulo = ?, cuerpo = ?, es_publico = ?, fecha_publicacion = ?  WHERE id_publicacion = ?", titulo, contenido, publico, fecha, id)
+            
+            return redirect("/MisBlogs")
+
 
 # Página para edición de un blog particular
 @app.route("/Editar", methods = ["GET", "POST"])
@@ -458,13 +522,16 @@ def confirmar(usuario):
 
 def enviarMail(correo, url):
     msg = Message("Activa tu cuenta!",
-                  sender="misionticgrupob@gmail.com",
+                  sender='misionticgrupob@gmail.com',
                   recipients=[correo])
-    msg.body = f'Para activar tu cuenta por favor sigue el siguiente link {url}'
+    #msg.body = f'Para activar tu cuenta por favor sigue el siguiente link {url}'
+    msg.html = render_template("mail_newUSer.html", visible = True, mensaje = url)
     mail.send(msg)
+    return msg.html
 
 def crearURL(token,usuario):
     url = f'http://127.0.0.1:8000/confirmacion/{usuario}?token={token}'
+    print('si cree la URL')
     return url
 
 def guadarTokenBD(token,correo, usuario):
@@ -476,7 +543,29 @@ def guadarTokenBD(token,correo, usuario):
             con.commit() #confirma la sentencia
     except :
         con.rollback()
+
+def enviarMailRecup(correo, url):
+    msg = Message("Recupera tu cuenta!",
+                  sender='misionticgrupob@gmail.com',
+                  recipients=[correo])
+    #msg.body = f'Para activar tu cuenta por favor sigue el siguiente link {url}'
+    msg.html = render_template("mail_recuperaCont.html", visible = True, mensaje = url)
+    mail.send(msg)
+    return msg.html
+
+
+def crearURLRecup(token,usuario):
+    url = f'http://127.0.0.1:8000/Recuperar2/{usuario}'
+    print('si cree la URL')
+    return url
+
+
+
+@app.route("/testEmail")
+def testEmail():
+    return enviarMail('ruthy9403@gmail.com', crearURL('QYcIBzoUhrgiicMP7EuXOYF5I68ooLPP0rJEfBVE6hI','alcohol'))
 #-------------*R
+
 
 if __name__ == "__main__":
     app.run(debug = True, port=8000)
