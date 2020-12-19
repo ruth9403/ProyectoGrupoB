@@ -266,14 +266,14 @@ def buscar():
 
         clave = request.form.get("clave")
 
-        if clave == "":
+        if clave == "" or clave == None:
             mensaje = "Ingresar al menos una palabra clave para la búsqueda"
             return render_template("paginaBusqueda copy.html", visible = True, mensaje = mensaje)
 
-            blogs = db.execute(f"SELECT * FROM publicacion WHERE (titulo LIKE '%%{search}%%' or cuerpo LIKE '%%{search}%%')")
-            cant = len(blogs)
+        blogs = db.execute(f"SELECT * FROM publicacion WHERE (titulo LIKE '%%{clave}%%' or cuerpo LIKE '%%{clave}%%')")
+        cant = len(blogs)
 
-            for blog in blogs:
+        for blog in blogs:
             blog["usuario"] = db.execute("SELECT nombre FROM usuario WHERE id_usuario = :idUser",idUser= blog["id_usuarioPub"])[0]["nombre"]
 
         return render_template("resultados.html", blogs = blogs, cant = cant)
