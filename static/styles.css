@@ -345,6 +345,11 @@ table {
     height: 100vh;
 }
 
+#bg-container{
+    background: url("buscar.jpeg") no-repeat center;
+}
+
+
 .recuperacion2-main {
     margin: 0;
     padding: 0;
