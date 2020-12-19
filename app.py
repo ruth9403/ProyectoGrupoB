@@ -148,11 +148,18 @@ def registro():
                 token = secrets.token_urlsafe()#-------------*R
                 guadarTokenBD(token, correo, username)
                 enviarMail(correo, crearURL(token,username))#-------------*R
-                return redirect("/")
+                return redirect("/RegistroExitoso")
         except :
             con.rollback()
 
         return redirect("/")
+
+# Ruta para que el usuario sepa que se ecuentra registrado
+@app.route("/RegistroExitoso", methods = ["GET", "POST"])
+def RegistroExitoso():
+    return render_template("usuarioRegistrado.html")
+
+
 
 # Ruta para la primera página de recuperación de contraseña (donde se pide el correo)
 @app.route("/Recuperar", methods = ["GET", "POST"])
