@@ -274,7 +274,7 @@ def buscar():
             cant = len(blogs)
 
             for blog in blogs:
-            blog["usuario"] = db.execute("SELECT nombre FROM usuario WHERE id_usuario = :idUser",idUser= blog["id_usuarioPub"])[0]["nombre"]
+                blog["usuario"] = db.execute("SELECT nombre FROM usuario WHERE id_usuario = :idUser",idUser= blog["id_usuarioPub"])[0]["nombre"]
 
         return render_template("resultados.html", blogs = blogs, cant = cant)
 
