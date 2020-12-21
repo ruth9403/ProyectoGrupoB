@@ -25,7 +25,7 @@ def after_request(response):
     return response
 
 # Configurar la sesión para usar el sistema de archivos (en lugar de cookies)
-app.config["SESSION_FILE_DIR"] = mkdtemp()
+#app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 
