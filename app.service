@@ -21,7 +21,7 @@ WorkingDirectory=/home/ubuntu/ProyectoBlogGrupoB
 Environment="PATH=/home/ubuntu/ProyectoBlogGrupoB/venv/bin"
 # We'll then specify the commanded to start the service
 
-ExecStart=/home/ubuntu/ProyectoBlogGrupoB/venv/bin/gunicorn --workers 3 --bind unix:app.sock -m 007 wsgi:app
+ExecStart=/home/ubuntu/ProyectoBlogGrupoB/venv/bin/gunicorn --workers 3 --bind unix:app.sock -m 007 wsgi:app --error-logfile /var/log/gunicorn/error.log --capture-output
 # This will tell systemd what to link this service to if we enable it to start at boot. We want this service to start when the regular multi-user system is up and running:
 
 [Install]
