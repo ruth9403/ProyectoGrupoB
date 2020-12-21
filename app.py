@@ -537,7 +537,7 @@ def enviarMail(correo, url):
     return msg.html
 
 def crearURL(token,usuario):
-    url = f'http://127.0.0.1:8000/confirmacion/{usuario}?token={token}'
+    url = f'http://ec2-54-167-130-1.compute-1.amazonaws.com/confirmacion/{usuario}?token={token}'
     print('si cree la URL')
     return url
 
@@ -562,7 +562,7 @@ def enviarMailRecup(correo, url):
 
 
 def crearURLRecup(token,usuario):
-    url = f'http://127.0.0.1:8000/Recuperar2/{usuario}'
+    url = f'http://ec2-54-167-130-1.compute-1.amazonaws.com/Recuperar2/{usuario}'
     print('si cree la URL')
     return url
 
