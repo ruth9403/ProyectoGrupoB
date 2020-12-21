@@ -35,6 +35,7 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = 'misionticgrupob@gmail.com'
 app.config['MAIL_USE_TLS'] = True                                    
 app.config['MAIL_PASSWORD'] = 'Clavefalsa1234' #-------------*R
+app.config['SECRET_KEY'] = 'H{va#rM!&P!8BAinVO/L!?t:g~dv1'  
 Session(app)
 mail = Mail(app)#-------------*R
 
