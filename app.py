@@ -12,11 +12,11 @@ from flask_mail import Message#-------------*R
 import secrets#-------------*R
 
 app = Flask(__name__)
-
+host = 'ec2-54-81-132-139.compute-1.amazonaws.com'
 # Asegurarse de Recargar templates
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-# Asegúrese de que las respuestas no se almacenen en caché
+#Asegúrese de que las respuestas no se almacenen en caché
 @app.after_request
 def after_request(response):
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -538,7 +538,7 @@ def enviarMail(correo, url):
     return msg.html
 
 def crearURL(token,usuario):
-    url = f'http://ec2-54-167-130-1.compute-1.amazonaws.com/confirmacion/{usuario}?token={token}'
+    url = f'{host}/confirmacion/{usuario}?token={token}'
     print('si cree la URL')
     return url
 
@@ -563,7 +563,7 @@ def enviarMailRecup(correo, url):
 
 
 def crearURLRecup(token,usuario):
-    url = f'http://ec2-54-167-130-1.compute-1.amazonaws.com/Recuperar2/{usuario}'
+    url = f'{host}/Recuperar2/{usuario}'
     print('si cree la URL')
     return url
 
