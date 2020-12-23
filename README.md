@@ -1,6 +1,9 @@
 # ProyectoBlogGrupoB
 
 Proyecto final Mision Tic Universidad del Norte, Grupo B
+Consiste en una aplicación Web para la genstión de blogs personales, incluye todas las operaciones del CRUD, base de datos SQLite, con registro de usuarios, validaciones, correos para verificación de registro y recuperacion de contraseñas, entre otros.
+
+Gracias! :D
 
 
 ## CONFIGURAR SERVIDOR FLASK
@@ -58,4 +61,6 @@ sudo journalctl -u app
 ## INTEGRANTES:
 Ver [Enlace de ayuda](https://remarkablemark.org/blog/2019/10/17/github-contributors-readme/)
 - María Isabel Jaramillo @fandemisterling100
-- 
+- Andres Romero @afatencia
+- Ruth Jimenez @ruth9403
+- Miguel Ariza @miguelariza
