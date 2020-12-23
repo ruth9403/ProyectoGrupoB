@@ -10,9 +10,10 @@ from datetime import date
 from flask_mail import Mail#-------------*R
 from flask_mail import Message#-------------*R
 import secrets#-------------*R
+import os#-------------*R
 
 app = Flask(__name__)
-host = 'ec2-54-81-132-139.compute-1.amazonaws.com'
+host = os.getenv('APP_HOST','http://127.0.0.1:8000')
 # Asegurarse de Recargar templates
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
